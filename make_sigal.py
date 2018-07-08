@@ -11,31 +11,31 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 parser = argparse.ArgumentParser(description='Create sine/cosine data files')
-parser.add_argument('--frequencies', metavar='f', type=int, nargs='+', default=1000,
+parser.add_argument('-frequencies', metavar='f', type=int, nargs='+', default=10000,
                     help='frequencies that will be summed for the signal (default to 1000 Hz)')
-parser.add_argument('--endtime', metavar='t', type=int, nargs=1, default=1,
-                    help='end time of signal (default to 1 s)')
-parser.add_argument('--size', metavar='N', type=int, nargs=1, default=100000,
-                    help='number of points (i.e. size of file), (default to 1000 points, must be greater than max frequency)')
-parser.add_argument('--output', metavar='o', nargs=1, default='output.txt',
+parser.add_argument('-size', metavar='N', type=int, nargs=1, default=100000,
+                    help='number of points (i.e. size of file), (default to 10000 points, must be greater than max frequency)')
+parser.add_argument('-output', metavar='o', nargs=1, default='output.txt',
                     help='output file name (default to output.txt)')
 parser.add_argument('-g', action='store_true',help='graph the output')
 
 args = parser.parse_args()
 args.frequencies = [args.frequencies] if type(args.frequencies) == int else args.frequencies
 
-time = np.linspace(0.0, args.endtime, args.size)
+T = 1
+
+time = np.linspace(0.0, T, args.size)
 output = [0 for _ in time]
 
 print('frequencies: {}'.format(args.frequencies))
 
 for f in args.frequencies:
     for ii in range(len(time)):
-        output[ii] += math.cos(2 * math.pi * f * time[ii])
+        output[ii] += 0.5 * math.cos(2 * math.pi * f * time[ii])
 
 with open(args.output, 'w') as f_out:
     for ii in range(len(time)):
-        f_out.write('{}, {}\n'.format(time[ii], output[ii]))
+        f_out.write('{},{}\n'.format(time[ii], output[ii]))
 
 if args.g:
     plt.plot(time, output)
