@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <math.h>
 
-#define WINDOW_SIZE 1024
+#define WINDOW_SIZE 1024 // Sample size
 #define PI 3.141592653589793
 #define BANDWITH 200
 #define NUM_FREQS 2
@@ -18,6 +18,10 @@ return the goertzel algorithm evaluation for the given inputs
     - BANDWITHS MUST BE THE SAME FOR EACH FREQ PAIR
         - TODO: Generalize for variable bandwiths
 - results must be 'results[num_freqs / 2][size_of_bin]'
+
+TODO:
+    - optimize w/ pointers
+    - optimize for use in other files
 */
 void goertzel(double *x, int sample_rate, int *freqs, double results[][BANDWITH], double *freqs_out)
 {
@@ -64,9 +68,11 @@ void goertzel(double *x, int sample_rate, int *freqs, double results[][BANDWITH]
             w_real = 2.0 * cos(2.0 * PI * f);
             w_imag = sin(2.0 * PI * f);
 
-            double d1, d2, y;
+            double d1 = 0, d2 = 0, y = 0;
             for (int n = 0; n < window_size; n++)
             {
+                // printf("\n\ny=%f\n", y);
+                // printf("d2=%f\n", d2);
                 y = x[n] + w_real * d1 - d2;
                 d2 = d1;
                 d1 = y;
@@ -83,40 +89,35 @@ void goertzel(double *x, int sample_rate, int *freqs, double results[][BANDWITH]
 }
 
 int main(void) {
-    FILE *f1 = fopen("output1.txt", "r");
-    FILE *f2 = fopen("output2.txt", "r");
+    FILE *f1 = fopen("output_1kHz.txt", "r");
+    FILE *f2 = fopen("output_10kHz.txt", "r");
     FILE *f_res = fopen("results1.txt", "w");
-    // FILE *f2 = fopen("output2.txt", "r");
     double var1, var2;
+
     int n=0;
     double x1[WINDOW_SIZE];
     while(fscanf(f1,"%lf", &var1) > 0){
         x1[n] = var1;
         n++;
     }
-    double x2[WINDOW_SIZE];
+
     n=0;
+    double x2[WINDOW_SIZE];
     while(fscanf(f2,"%lf", &var2) > 0){
         x2[n] = var2;
+        n++;
     }
+
     double results[NUM_FREQS][BANDWITH];
     double freqs_out[NUM_FREQS * BANDWITH];
     int freqs[NUM_FREQS * 1] = {900, 1100};
-    int freqs1[NUM_FREQS * 1] = {9900, 10100};
     goertzel(x1, 100000, freqs, results, freqs_out);
-    for (int i = 0; i < 2; i++) {
-        for (int j = 0; j < 200; j++) {
-            fprintf(f_res, "%.18f,%.18f\n", freqs_out[200 * i + j], results[i][j]);
-        }
-    }
+
     double results1[NUM_FREQS][BANDWITH];
     double freqs_out1[NUM_FREQS * BANDWITH];
+    int freqs1[NUM_FREQS * 1] = {9900, 10100};
     goertzel(x2, 100000, freqs1, results1, freqs_out1);
-    for (int i = 0; i < 2; i++) {
-        for (int j = 0; j < 200; j++) {
-            fprintf(f_res, "%.18f,%.18f\n", freqs_out1[200 * i + j], results1[i][j]);
-        }
-    }
+
     fclose(f1);
     fclose(f2);
     fclose(f_res);
