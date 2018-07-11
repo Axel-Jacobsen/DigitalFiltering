@@ -45,8 +45,8 @@
 #include "ssd1306.h"
 #include "circular_buffer.h"
 
-#define WINDOW_SIZE 512
-#define SAMPLING_RATE 100000
+#define WINDOW_SIZE 1024
+#define SAMPLING_RATE 1400000
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -111,12 +111,12 @@ int main(void)
   ssd1306_Fill(Black);
   ssd1306_WriteString("Good Morning", Font_11x18, White);
   ssd1306_UpdateScreen();
-  HAL_Delay(1500);
+  HAL_Delay(3000);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  uint32_t value;
+  double value;
   circ_bufsum_t cbuf;
   circ_bufsum_init(&cbuf, WINDOW_SIZE);
   char *adc = (char *)malloc(13 * sizeof(char));
@@ -128,8 +128,11 @@ int main(void)
     if (n < (WINDOW_SIZE - 1))
     {
       HAL_ADC_PollForConversion(&hadc1, 1000);
-      circ_bufsum_put(&cbuf, HAL_ADC_GetValue(&hadc1));
+      int real_val = HAL_ADC_GetValue(&hadc1);
+      circ_bufsum_put(&cbuf, real_val);
       sprintf(adc1, "%d", n);
+      ssd1306_SetCursor(0, 0);
+      ssd1306_Fill(Black);
       ssd1306_WriteString(adc1, Font_11x18, White);
       ssd1306_UpdateScreen();
       n++;
@@ -137,21 +140,31 @@ int main(void)
     else
     {
       // Get new value, get power
+      n++;
       HAL_ADC_PollForConversion(&hadc1, 1000);
-      circ_bufsum_put(&cbuf, HAL_ADC_GetValue(&hadc1));
-      value = (int)goertzel(cbuf.buffer, SAMPLING_RATE, 1000, 512) ;
+      int val = HAL_ADC_GetValue(&hadc1);
+
+      circ_bufsum_put(&cbuf, val);
+      value = goertzel(cbuf.buffer, SAMPLING_RATE, 1000, WINDOW_SIZE);
+      int pre_decimal = (int)value / 1;
+      int post_decimal = value - pre_decimal;
+      ssd1306_Fill(Black);
+      sprintf(adc, "P: %d.%d", pre_decimal, post_decimal);
       ssd1306_SetCursor(0, 0);
-      sprintf(adc, "P: %d", (int)value);
+      ssd1306_WriteString(adc, Font_11x18, White);
+      sprintf(adc, "N: %d", n);
+      ssd1306_SetCursor(0, 18);
+      ssd1306_WriteString(adc, Font_11x18, White);
+      sprintf(adc, "V: %d", val);
+      ssd1306_SetCursor(0, 36);
       ssd1306_WriteString(adc, Font_11x18, White);
       ssd1306_UpdateScreen();
-      HAL_Delay(50);
     }
-  /* USER CODE END WHILE */
+    /* USER CODE END WHILE */
 
-  /* USER CODE BEGIN 3 */
+    /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
-
 }
 
 /**
@@ -164,13 +177,13 @@ void SystemClock_Config(void)
   RCC_OscInitTypeDef RCC_OscInitStruct;
   RCC_ClkInitTypeDef RCC_ClkInitStruct;
 
-    /**Configure the main internal regulator output voltage 
+  /**Configure the main internal regulator output voltage 
     */
   __HAL_RCC_PWR_CLK_ENABLE();
 
   __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE2);
 
-    /**Initializes the CPU, AHB and APB busses clocks 
+  /**Initializes the CPU, AHB and APB busses clocks 
     */
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
@@ -186,10 +199,9 @@ void SystemClock_Config(void)
     _Error_Handler(__FILE__, __LINE__);
   }
 
-    /**Initializes the CPU, AHB and APB busses clocks 
+  /**Initializes the CPU, AHB and APB busses clocks 
     */
-  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
-                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
@@ -200,11 +212,11 @@ void SystemClock_Config(void)
     _Error_Handler(__FILE__, __LINE__);
   }
 
-    /**Configure the Systick interrupt time 
+  /**Configure the Systick interrupt time 
     */
-  HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq()/1000);
+  HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq() / 1000);
 
-    /**Configure the Systick 
+  /**Configure the Systick 
     */
   HAL_SYSTICK_CLKSourceConfig(SYSTICK_CLKSOURCE_HCLK);
 
@@ -218,7 +230,7 @@ static void MX_ADC1_Init(void)
 
   ADC_ChannelConfTypeDef sConfig;
 
-    /**Configure the global features of the ADC (Clock, Resolution, Data Alignment and number of conversion) 
+  /**Configure the global features of the ADC (Clock, Resolution, Data Alignment and number of conversion) 
     */
   hadc1.Instance = ADC1;
   hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
@@ -237,7 +249,7 @@ static void MX_ADC1_Init(void)
     _Error_Handler(__FILE__, __LINE__);
   }
 
-    /**Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time. 
+  /**Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time. 
     */
   sConfig.Channel = ADC_CHANNEL_0;
   sConfig.Rank = 1;
@@ -246,7 +258,6 @@ static void MX_ADC1_Init(void)
   {
     _Error_Handler(__FILE__, __LINE__);
   }
-
 }
 
 /* I2C1 init function */
@@ -266,7 +277,6 @@ static void MX_I2C1_Init(void)
   {
     _Error_Handler(__FILE__, __LINE__);
   }
-
 }
 
 /** Pinout Configuration
@@ -277,7 +287,6 @@ static void MX_GPIO_Init(void)
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
-
 }
 
 /* USER CODE BEGIN 4 */
@@ -300,7 +309,7 @@ void _Error_Handler(char *file, int line)
   /* USER CODE END Error_Handler_Debug */
 }
 
-#ifdef  USE_FULL_ASSERT
+#ifdef USE_FULL_ASSERT
 /**
   * @brief  Reports the name of the source file and the source line number
   *         where the assert_param error has occurred.
@@ -308,8 +317,8 @@ void _Error_Handler(char *file, int line)
   * @param  line: assert_param error line source number
   * @retval None
   */
-void assert_failed(uint8_t* file, uint32_t line)
-{ 
+void assert_failed(uint8_t *file, uint32_t line)
+{
   /* USER CODE BEGIN 6 */
   /* User can add his own implementation to report the file name and line number,
      tex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
