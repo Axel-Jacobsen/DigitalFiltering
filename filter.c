@@ -1,10 +1,13 @@
-#include <assert.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
+#include "assert.h"
+#include "stdio.h"
+#include "stdlib.h"
+#include "math.h"
 
-#define WINDOW_SIZE 1024 // Sample size
+#include "filter.h"
+#include "circular_buffer.h"
+
 #define PI 3.141592653589793
+
 #define BANDWITH 200
 #define NUM_FREQS 2
 
@@ -23,102 +26,135 @@ TODO:
     - optimize w/ pointers
     - optimize for use in other files
 */
-void goertzel(double *x, int sample_rate, int *freqs, double results[][BANDWITH], double *freqs_out)
+double goertzel(double *x, int sample_rate, int freq, int window_size)
 {
     // Set up initial parameters
-    int window_size = WINDOW_SIZE;
     double f_step = sample_rate / (double)window_size;
     double f_step_normalized = 1.0 / window_size;
 
-    // We need to find the DFT bins that we need to compute
-    int num_freqs = NUM_FREQS;
-    assert(num_freqs % 2 == 0);
-    int bins[num_freqs];
-    int f_start, f_end, k_start, k_end;
-    for (int i = 0; i < num_freqs; i += 2)
-    {
-        f_start = freqs[i];
-        f_end = freqs[i + 1];
-        k_start = (int)floor(f_start / f_step);
-        k_end = (int)ceil(f_end / f_step);
-        // Make sure frequency is within range- if this throws, your
-        // sample rate is too low compared to your highest frequency
-        assert(k_end < window_size - 1);
-        bins[i] = k_start;
-        bins[i + 1] = k_end;
-    }
+    double k = freq / f_step;
 
     // number of frequencies is the same size as the number of
     // upper and lower bin limits; loop through bin limits (i.e.
     // k_start and k_end pairs, and evaluate goertzel from there)
-    double f, w_real, w_imag;
-    // Results will be a 2d array; each row will be an individual frequency band,
-    // each frequency band will have k_start - k_end elements.
-    // TODO: Generalize for variable bandwiths
-    int i = 0;
-    for (int j = 0; j < num_freqs; j += 2)
+    double normalizedfreq, w_real, w_imag;
+
+    normalizedfreq = k * f_step_normalized;
+    w_real = 2.0 * cos(2.0 * PI * normalizedfreq);
+
+    double d1 = 0, d2 = 0, y = 0;
+    for (int n = 0; n < window_size; n++)
     {
-        k_start = bins[j];
-        k_end = bins[j + 1];
-        // evaluate through the frequencies between k_start and k_end
-        for (int k = k_start; k < k_end; k++)
-        {
-            // Bin frequency and coefficients for computation
-            f = k * f_step_normalized;
-            w_real = 2.0 * cos(2.0 * PI * f);
-            w_imag = sin(2.0 * PI * f);
-
-            double d1 = 0, d2 = 0, y = 0;
-            for (int n = 0; n < window_size; n++)
-            {
-                // printf("\n\ny=%f\n", y);
-                // printf("d2=%f\n", d2);
-                y = x[n] + w_real * d1 - d2;
-                d2 = d1;
-                d1 = y;
-            }
-
-            printf("FRQ: %.9f", f * sample_rate);
-            printf(" VAL: %.9f\n", d2 * d2 + d1 * d1 - w_real * d1 * d2);
-            // Calculate power, and put it in its results spot
-            results[j / 2][k - k_start] = d2 * d2 + d1 * d1 - w_real * d1 * d2;
-            freqs_out[i] = f * sample_rate;
-            i++;
-        }
+        y = x[n] + w_real * d1 - d2;
+        d2 = d1;
+        d1 = y;
     }
+
+    // Calculate power, and put it in its results spot
+    return d2 * d2 + d1 * d1 - w_real * d1 * d2;
 }
 
-int main(void) {
-    FILE *f1 = fopen("output_1kHz.txt", "r");
-    FILE *f2 = fopen("output_10kHz.txt", "r");
-    FILE *f_res = fopen("results1.txt", "w");
-    double var1, var2;
-
-    int n=0;
-    double x1[WINDOW_SIZE];
-    while(fscanf(f1,"%lf", &var1) > 0){
-        x1[n] = var1;
-        n++;
+double circular_goertzel_stream(double x, int freq, int sample_rate, int window_size)
+{
+    // Set up and initialize circular_buffer
+    static int initialized = 0;
+    static circ_bufsum_t cbuf;
+    if (!initialized)
+    {
+        circ_bufsum_init(&cbuf, window_size);
+        initialized = - 1;
     }
 
-    n=0;
-    double x2[WINDOW_SIZE];
-    while(fscanf(f2,"%lf", &var2) > 0){
-        x2[n] = var2;
-        n++;
+    // Set up initial parameters
+    double f_step = sample_rate / (double)window_size;
+    double f_step_normalized = 1.0 / window_size;
+
+    // Calculate freq bin (for calc of frequency)
+    double k = freq / f_step;
+
+    // Get rid of for loop of num_freqs,etc
+    // Bin frequency and coefficients for computation
+    // TODO: MAKE STATIC? i.e. w_real is constant across t
+    //       for one frequency!
+    double normalizedfreq, w_real;
+    normalizedfreq = k * f_step_normalized;
+    w_real = 2.0 * cos(2.0 * PI * normalizedfreq);
+
+    /*
+    ALGO:
+        while cbuf->size < WINDOW_SIZE
+            perform this loop (put new values of y into cbuf)
+        put new values into cbuf, subtract old y from d1 values
+
+    TODO: Optimize circ_bufsum_add_sample to be able to be used when queue is not empty
+    */
+    static double d1 = 0;
+    static double d2 = 0; 
+    static double y  = 0;
+    static double total_power = 0;
+    printf("num_els: %lu, ", cbuf.num_els);
+    // Now the cbuf is full; add values, and subtract old y from d1
+    y = x + w_real * d1 - d2;
+    d2 = d1;
+    double a = circ_bufsum_add_sample(&cbuf, y);
+    d1 = y - a;
+    printf("%f", a);
+
+    // printf("FRQ: %.9f", normalizedfreq * sample_rate);
+    // printf(" VAL: %.9f\n", d2 * d2 + d1 * d1 - w_real * d1 * d2);
+    // // Calculate power, and put it in its results spot
+    // MAY NEED TO NORMAILZE POWER
+    total_power += x * x;
+    return ((d2 * d2 + d1 * d1 - w_real * d1 * d2)) / (total_power);
+}
+
+/*
+Takes a stream of samples at sample_rate. returns current power every iteration
+sample_rate = 1024
+resetsample = 512
+
+Adapted from https://netwerkt.wordpress.com/2011/08/25/goertzel-filter/
+*/
+double tandem_goertzel_stream(double x, int freq, int sample_rate, int resetsample)
+{
+    static double s_prev[2] = {0.0, 0.0};
+    static double s_prev2[2] = {0.0, 0.0};
+    static double total_power[2] = {0.0, 0.0};
+    static int N = 0;
+    double w_real, normalizedfreq, power, s;
+    int active;
+    static int n[2] = {0, 0};
+
+    normalizedfreq = freq / sample_rate;
+    w_real = 2.0 * cos(2.0 * PI * normalizedfreq);
+
+    // Calculate the first set of samples
+    s = x + w_real * s_prev[0] - s_prev2[0];
+    s_prev2[0] = s_prev[0];
+    s_prev[0] = s;
+    n[0]++;
+
+    // Calculate the second set of samples
+    s = x + w_real * s_prev[1] - s_prev2[1];
+    s_prev2[1] = s_prev[1];
+    s_prev[1] = s;
+    n[1]++;
+
+    N++;
+
+    // reset inactive
+    active = (N / resetsample) & 0x01;
+    if (n[1 - active] >= resetsample)
+    {
+        s_prev[1 - active] = 0.0;
+        s_prev2[1 - active] = 0.0;
+        total_power[1 - active] = 0.0;
+        n[1 - active] = 0;
     }
+    total_power[0] += x * x;
+    total_power[1] += x * x;
+    power = s_prev2[active] * s_prev2[active] + s_prev[active] * s_prev[active] - w_real * s_prev[active] * s_prev2[active];
 
-    double results[NUM_FREQS][BANDWITH];
-    double freqs_out[NUM_FREQS * BANDWITH];
-    int freqs[NUM_FREQS * 1] = {900, 1100};
-    goertzel(x1, 100000, freqs, results, freqs_out);
-
-    double results1[NUM_FREQS][BANDWITH];
-    double freqs_out1[NUM_FREQS * BANDWITH];
-    int freqs1[NUM_FREQS * 1] = {9900, 10100};
-    goertzel(x2, 100000, freqs1, results1, freqs_out1);
-
-    fclose(f1);
-    fclose(f2);
-    fclose(f_res);
+    // printf("\n\npoooower %f\n", power);
+    return power / (total_power[active] + 1e-7) / n[active];
 }

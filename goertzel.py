@@ -8,6 +8,8 @@ Python prototype of digital filtering
 
 import math
 import matplotlib.pyplot as plt
+import numpy as np
+import pylab
 
 Fs = 1024 # sampling rate
 # N = 100000 # number of samples of fourier analysis
@@ -15,9 +17,6 @@ Fs = 1024 # sampling rate
 '''
 X[k] = Re(X[k]) + Im(X[k]) = Sum(n=0 to N-1)(x[n]cos(k * n * 2 * pi / N)) - Sum(n=0 to N-1)(x[n]sin(k * n * 2 * pi / N))
 '''
-import math
-import numpy as np
-import pylab
 
 def goertzel(samples, sample_rate, *freqs):
     """
