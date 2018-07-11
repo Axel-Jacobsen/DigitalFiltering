@@ -54,6 +54,34 @@ double goertzel(double *x, int sample_rate, int freq, int window_size)
     return d2 * d2 + d1 * d1 - w_real * d1 * d2;
 }
 
+double goertzel(int *x, int sample_rate, int freq, int window_size)
+{
+    // Set up initial parameters
+    double f_step = sample_rate / (double)window_size;
+    double f_step_normalized = 1.0 / window_size;
+
+    double k = freq / f_step;
+
+    // number of frequencies is the same size as the number of
+    // upper and lower bin limits; loop through bin limits (i.e.
+    // k_start and k_end pairs, and evaluate goertzel from there)
+    double normalizedfreq, w_real, w_imag;
+
+    normalizedfreq = k * f_step_normalized;
+    w_real = 2.0 * cos(2.0 * PI * normalizedfreq);
+
+    double d1 = 0, d2 = 0, y = 0;
+    for (int n = 0; n < window_size; n++)
+    {
+        y = x[n] + w_real * d1 - d2;
+        d2 = d1;
+        d1 = y;
+    }
+
+    // Calculate power, and put it in its results spot
+    return d2 * d2 + d1 * d1 - w_real * d1 * d2;
+}
+
 double circular_goertzel_stream(double x, int freq, int sample_rate, int window_size)
 {
     // Set up and initialize circular_buffer
