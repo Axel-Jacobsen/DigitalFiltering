@@ -3,9 +3,8 @@
 Get rid of those pesky other signals
 
 
-
-_Output from Circular Goertzel Filter, given 1 kHz, 0.5 kHz, 1 kHz, 10 kHz input_
 ![Output from Circular Goertzel Filter, given 1 kHz, 0.5 kHz, 1 kHz, 10 kHz input](circular_goertzel.png)
+_Output from Circular Goertzel Filter, given 1 kHz, 0.5 kHz, 1 kHz, 10 kHz input_
 
 ## End Goal
 
