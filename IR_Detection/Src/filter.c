@@ -42,18 +42,19 @@ double goertzel(int *x, int sample_rate, int freq, int window_size)
 
     normalizedfreq = k * f_step_normalized;
     w_real = 2.0 * cos(2.0 * PI * normalizedfreq);
-    double d1 = 0, d2 = 0, y = 0;
+    double d1 = 0, d2 = 0, y = 0, tot_power = 0;
     int n = 0;
     while (n < window_size)
     {
         y = x[n] + w_real * d1 - d2;
         d2 = d1;
         d1 = y;
+        tot_power += x[n] * x[n];
         n++;
     }
 
     // Calculate power, and put it in its results spot
-    return d2 * d2 + d1 * d1 - w_real * d1 * d2;
+    return (d2 * d2 + d1 * d1 - w_real * d1 * d2);
 }
 
 double circular_goertzel_stream(double x, int freq, int sample_rate, int window_size)
@@ -94,7 +95,7 @@ double circular_goertzel_stream(double x, int freq, int sample_rate, int window_
     static double d2 = 0; 
     static double y  = 0;
     static double total_power = 0;
-    printf("num_els: %lu, ", cbuf.num_els);
+    printf("num_els: %d, ", cbuf.num_els);
     // Now the cbuf is full; add values, and subtract old y from d1
     y = x + w_real * d1 - d2;
     d2 = d1;

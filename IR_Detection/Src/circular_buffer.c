@@ -17,7 +17,7 @@ int circ_bufsum_init(circ_bufsum_t *cbuf, int window_size)
         cbuf->size    = window_size;
         cbuf->num_els = 0;
         cbuf->empty   = 1;
-        cbuf->buffer  = (double *)malloc(window_size * sizeof (double));
+        cbuf->buffer  = (int *)malloc(window_size * sizeof (double));
         r = 1;
     }
 
@@ -51,7 +51,7 @@ int circ_bufsum_full(circ_bufsum_t *cbuf)
     return ((cbuf->head + 1) % cbuf->size) == cbuf->tail;
 }
 
-int circ_bufsum_put(circ_bufsum_t * cbuf, double data)
+int circ_bufsum_put(circ_bufsum_t * cbuf, int data)
 {
     int r = -1;
 
