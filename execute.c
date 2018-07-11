@@ -1,14 +1,17 @@
 #include "stdio.h"
 #include "filter.h"
 
+/*
+File just to execute the circular_goertzel_stream function and find derivative
+to get step function for output
+*/
+
 int main(void)
 {
-    FILE *f1 = fopen("output_1kHz.txt", "r");
-    FILE *f2 = fopen("output_10kHz.txt", "r");
-    FILE *f_res = fopen("results1.txt", "w");
-    double var1, var2;
+    double var1;
     int WINDOW_SIZE = 1024;
 
+    FILE *f1 = fopen("variable_output.txt", "r");
     int n = 0;
     double x1[10 * WINDOW_SIZE];
     while (fscanf(f1, "%lf", &var1) > 0)
@@ -16,45 +19,31 @@ int main(void)
         x1[n] = var1;
         n++;
     }
-
-    n = 0;
-    double x2[10 * WINDOW_SIZE];
-    while (fscanf(f2, "%lf", &var2) > 0)
-    {
-        x2[n] = var2;
-        n++;
-    }
-
-    FILE *fO1 = fopen("updated_goertzel_1k.txt", "w");
-    for (int n = 0; n < 10 * 1024; n++)
-    {
-        double o = goertzel(x1, 100000, 1000, WINDOW_SIZE);
-        fprintf(fO1, "%f\n", o);
-    }
-
-    FILE *fO2 = fopen("updated_goertzel_10k.txt", "w");
-    for (int n = 0; n < 10 * 1024; n++)
-    {
-        double o = goertzel(x1, 100000, 1000, WINDOW_SIZE);
-        fprintf(fO2, "%f\n", o);
-    }
-
     fclose(f1);
-    fclose(f2);
-    fclose(fO1);
-    fclose(fO2);
-    fclose(f_res);
 
-    // FILE *fOO = fopen("circular_goertzel_stream.txt", "w");
-    // // Test circular_goertzel_stream
-    // for (int n = 0; n < 10 * 1024; n++)
-    // {
-    //     double o = circular_goertzel_stream(x1[n], 1000, 100000, 1024);
-    //     fprintf(fOO, "%f\n", o);
-    //     if (o > 0)
-    //     {
-    //         printf("POWER: %f\n", o);
-    //     }
-    // }
-    // fclose(fOO);
+    FILE *fOO = fopen("circular_goertzel_stream.txt", "w");
+    FILE *fDer = fopen("deriv_goertzel_strm.txt", "w");
+
+    double prev_o = 0;
+    int hist_dist = 100;
+    for (int n = 0; n < 10 * WINDOW_SIZE; n++)
+    {
+        double o = circular_goertzel_stream(x1[n], 1000, 100000, WINDOW_SIZE);
+        if (n == 1023 - hist_dist)
+        {
+            prev_o = o;
+        }
+        if (n > 1023)
+        {
+            if (n % hist_dist == 0)
+            {
+                int pos = (o - prev_o) > 0 ? 1 : 0;
+                fprintf(fDer, "%d\n", pos);
+                prev_o = o;
+            }
+        }
+        fprintf(fOO, "%f\n", o);
+    }
+    fclose(fOO);
+    fclose(fDer);
 }

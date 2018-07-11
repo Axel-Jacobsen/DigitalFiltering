@@ -90,7 +90,7 @@ double circular_goertzel_stream(double x, int freq, int sample_rate, int window_
     if (!initialized)
     {
         circ_bufsum_init(&cbuf, window_size);
-        initialized = - 1;
+        initialized = 1;
     }
 
     // Set up initial parameters
@@ -120,20 +120,18 @@ double circular_goertzel_stream(double x, int freq, int sample_rate, int window_
     static double d2 = 0; 
     static double y  = 0;
     static double total_power = 0;
-    printf("num_els: %lu, ", cbuf.num_els);
     // Now the cbuf is full; add values, and subtract old y from d1
+    double a = circ_bufsum_add_sample(&cbuf, y);
     y = x + w_real * d1 - d2;
     d2 = d1;
-    double a = circ_bufsum_add_sample(&cbuf, y);
-    d1 = y - a;
-    printf("%f", a);
+    d1 = y;
 
     // printf("FRQ: %.9f", normalizedfreq * sample_rate);
     // printf(" VAL: %.9f\n", d2 * d2 + d1 * d1 - w_real * d1 * d2);
     // // Calculate power, and put it in its results spot
     // MAY NEED TO NORMAILZE POWER
-    total_power += x * x;
-    return ((d2 * d2 + d1 * d1 - w_real * d1 * d2)) / (total_power);
+    total_power += x*x;
+    return ((d2 * d2 + d1 * d1 - w_real * d1 * d2) / total_power / cbuf.num_els);
 }
 
 /*

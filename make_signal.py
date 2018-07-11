@@ -29,15 +29,21 @@ print('frequencies: {}'.format(args.frequencies))
 print('sampling rate: {:.3f}'.format(SAMPLE_FREQ / 1))
 print('file out: {}'.format(FILE_OUT))
 
+print("BOUNDS")
+print(math.floor(len(time) / 4))
+print(math.floor(len(time) / 4), math.floor(len(time) / 2))
+print(math.floor(len(time) / 2), math.floor(3 * len(time) / 4))
+print(math.floor(3 * len(time) / 4), len(time))
 for f in args.frequencies:
-    for ii in range(math.floor(len(time) / 2)):
-        output[ii] += 0.5 * math.cos(2 * math.pi * 1000 * time[ii])
-    for ii in range(math.floor(len(time) / 2), math.floor(len(time) / 2)):
-        output[ii] += 0.5 * math.cos(2 * math.pi * 500 * time[ii])
+    for ii in range(math.floor(len(time) / 4)):
+        output[ii] += 1 * math.cos(2 * math.pi * 1000 * time[ii])
+    for ii in range(math.floor(len(time) / 4), math.floor(len(time) / 2)):
+        output[ii] += 1 * math.cos(2 * math.pi * 500 * time[ii])
     for ii in range(math.floor(len(time) / 2), math.floor(3 * len(time) / 4)):
-        output[ii] += 0.5 * math.cos(2 * math.pi * 1000 * time[ii])
+        output[ii] += 1 * math.cos(2 * math.pi * 1000 * time[ii])
     for ii in range(math.floor(3 * len(time) / 4), len(time)):
-        output[ii] += 0.5 * math.cos(2 * math.pi * 10000 * time[ii])
+        output[ii] += 1 * math.cos(2 * math.pi * 10000 * time[ii])
+
 
 
 with open(FILE_OUT, 'w') as f_out:

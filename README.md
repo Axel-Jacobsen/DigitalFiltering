@@ -2,6 +2,9 @@
 
 Get rid of those pesky other signals
 
+![Output from Circular Goertzel Filter, given 1 kHz, 0.5 kHz, 1 kHz, 10 kHz input](circular_goertzel.png)
+_Output from Circular Goertzel Filter, given 1 kHz, 0.5 kHz, 1 kHz, 10 kHz input_
+
 ## End Goal
 
 Take a stream of 12 bit analog input, and filter for 1 kHz and 10 kHz (or any arbitrary frequency within reasonable bounds).
