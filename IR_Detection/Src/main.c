@@ -41,11 +41,18 @@
 #include "stm32f4xx_hal.h"
 
 /* USER CODE BEGIN Includes */
+#include "filter.h"
+#include "ssd1306.h"
+#include "circular_buffer.h"
 
+#define WINDOW_SIZE 512
+#define SAMPLING_RATE 100000
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
 ADC_HandleTypeDef hadc1;
+
+I2C_HandleTypeDef hi2c1;
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
@@ -56,6 +63,7 @@ ADC_HandleTypeDef hadc1;
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_ADC1_Init(void);
+static void MX_I2C1_Init(void);
 
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
@@ -96,19 +104,45 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_ADC1_Init();
+  MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
-
+  HAL_ADC_Start(&hadc1);
+  ssd1306_Init();
+  HAL_Delay(500);
+  ssd1306_Fill(Black);
+  ssd1306_UpdateScreen();
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  uint32_t value;
+  circ_bufsum_t cbuf;
+  circ_bufsum_init(&cbuf, WINDOW_SIZE);
+  char *adc = (char *)malloc(13 * sizeof(char));
+  uint16_t n = 0;
   while (1)
   {
-
+    // first fill the buffer
+    if (n < (WINDOW_SIZE - 1))
+    {
+      HAL_ADC_PollForConversion(&hadc1, 1000);
+      circ_bufsum_put(&cbuf, HAL_ADC_GetValue(&hadc1));
+      n++;
+    }
+    else
+    {
+      // Get new value, get power
+      HAL_ADC_PollForConversion(&hadc1, 1000);
+      circ_bufsum_put(&cbuf, HAL_ADC_GetValue(&hadc1));
+      value = (int)goertzel(cbuf.buffer, SAMPLING_RATE, 1000, 512) ;
+      ssd1306_SetCursor(0, 0);
+      sprintf(adc, "P: %d", (int)value);
+      ssd1306_WriteString(adc, Font_11x18, White);
+      HAL_Delay(50);
+    }
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
-
   }
   /* USER CODE END 3 */
 
@@ -209,6 +243,26 @@ static void MX_ADC1_Init(void)
 
 }
 
+/* I2C1 init function */
+static void MX_I2C1_Init(void)
+{
+
+  hi2c1.Instance = I2C1;
+  hi2c1.Init.ClockSpeed = 100000;
+  hi2c1.Init.DutyCycle = I2C_DUTYCYCLE_2;
+  hi2c1.Init.OwnAddress1 = 0;
+  hi2c1.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
+  hi2c1.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
+  hi2c1.Init.OwnAddress2 = 0;
+  hi2c1.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
+  hi2c1.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
+  if (HAL_I2C_Init(&hi2c1) != HAL_OK)
+  {
+    _Error_Handler(__FILE__, __LINE__);
+  }
+
+}
+
 /** Pinout Configuration
 */
 static void MX_GPIO_Init(void)
@@ -216,6 +270,7 @@ static void MX_GPIO_Init(void)
 
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOA_CLK_ENABLE();
+  __HAL_RCC_GPIOB_CLK_ENABLE();
 
 }
 
@@ -233,7 +288,7 @@ void _Error_Handler(char *file, int line)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
   /* User can add his own implementation to report the HAL error return state */
-  while(1)
+  while (1)
   {
   }
   /* USER CODE END Error_Handler_Debug */
