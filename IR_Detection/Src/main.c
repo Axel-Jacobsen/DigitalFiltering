@@ -108,9 +108,10 @@ int main(void)
   /* USER CODE BEGIN 2 */
   HAL_ADC_Start(&hadc1);
   ssd1306_Init();
-  HAL_Delay(500);
   ssd1306_Fill(Black);
+  ssd1306_WriteString("Good Morning", Font_11x18, White);
   ssd1306_UpdateScreen();
+  HAL_Delay(1500);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -119,6 +120,7 @@ int main(void)
   circ_bufsum_t cbuf;
   circ_bufsum_init(&cbuf, WINDOW_SIZE);
   char *adc = (char *)malloc(13 * sizeof(char));
+  char *adc1 = (char *)malloc(13 * sizeof(char));
   uint16_t n = 0;
   while (1)
   {
@@ -127,6 +129,9 @@ int main(void)
     {
       HAL_ADC_PollForConversion(&hadc1, 1000);
       circ_bufsum_put(&cbuf, HAL_ADC_GetValue(&hadc1));
+      sprintf(adc1, "%d", n);
+      ssd1306_WriteString(adc1, Font_11x18, White);
+      ssd1306_UpdateScreen();
       n++;
     }
     else
@@ -138,6 +143,7 @@ int main(void)
       ssd1306_SetCursor(0, 0);
       sprintf(adc, "P: %d", (int)value);
       ssd1306_WriteString(adc, Font_11x18, White);
+      ssd1306_UpdateScreen();
       HAL_Delay(50);
     }
   /* USER CODE END WHILE */

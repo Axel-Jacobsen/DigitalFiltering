@@ -1,4 +1,4 @@
-ARM GAS  /var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//cctheIXO.s 			page 1
+ARM GAS  /var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccUrIvW1.s 			page 1
 
 
    1              		.syntax unified
@@ -12,7 +12,7 @@ ARM GAS  /var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//cctheIXO.s 			page 1
    9              		.eabi_attribute 24, 1
   10              		.eabi_attribute 25, 1
   11              		.eabi_attribute 26, 1
-  12              		.eabi_attribute 30, 6
+  12              		.eabi_attribute 30, 1
   13              		.eabi_attribute 34, 1
   14              		.eabi_attribute 18, 4
   15              		.thumb
@@ -58,7 +58,7 @@ ARM GAS  /var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//cctheIXO.s 			page 1
   23:Src/filter.c  **** - results must be 'results[num_freqs / 2][size_of_bin]'
   24:Src/filter.c  **** 
   25:Src/filter.c  **** TODO:
-ARM GAS  /var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//cctheIXO.s 			page 2
+ARM GAS  /var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccUrIvW1.s 			page 2
 
 
   26:Src/filter.c  ****     - optimize w/ pointers
@@ -69,71 +69,74 @@ ARM GAS  /var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//cctheIXO.s 			page 1
   31:Src/filter.c  **** {
   34              		.loc 1 31 0
   35              		.cfi_startproc
-  36              		@ args = 0, pretend = 0, frame = 88
-  37              		@ frame_needed = 1, uses_anonymous_args = 0
-  38 0000 B0B5     		push	{r4, r5, r7, lr}
-  39              	.LCFI0:
-  40              		.cfi_def_cfa_offset 16
-  41              		.cfi_offset 4, -16
-  42              		.cfi_offset 5, -12
-  43              		.cfi_offset 7, -8
-  44              		.cfi_offset 14, -4
-  45 0002 96B0     		sub	sp, sp, #88
-  46              	.LCFI1:
-  47              		.cfi_def_cfa_offset 104
-  48 0004 00AF     		add	r7, sp, #0
-  49              	.LCFI2:
-  50              		.cfi_def_cfa_register 7
-  51 0006 F860     		str	r0, [r7, #12]
-  52 0008 B960     		str	r1, [r7, #8]
-  53 000a 7A60     		str	r2, [r7, #4]
-  54 000c 3B60     		str	r3, [r7]
+  36              		@ args = 0, pretend = 0, frame = 16
+  37              		@ frame_needed = 0, uses_anonymous_args = 0
+  38              	.LVL0:
+  39 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+  40              	.LCFI0:
+  41              		.cfi_def_cfa_offset 36
+  42              		.cfi_offset 4, -36
+  43              		.cfi_offset 5, -32
+  44              		.cfi_offset 6, -28
+  45              		.cfi_offset 7, -24
+  46              		.cfi_offset 8, -20
+  47              		.cfi_offset 9, -16
+  48              		.cfi_offset 10, -12
+  49              		.cfi_offset 11, -8
+  50              		.cfi_offset 14, -4
+  51 0004 85B0     		sub	sp, sp, #20
+  52              	.LCFI1:
+  53              		.cfi_def_cfa_offset 56
+  54 0006 8146     		mov	r9, r0
+  55 0008 9246     		mov	r10, r2
+  56 000a 9846     		mov	r8, r3
   32:Src/filter.c  ****     // Set up initial parameters
   33:Src/filter.c  ****     double f_step = sample_rate / (double)window_size;
-  55              		.loc 1 33 0
-  56 000e B868     		ldr	r0, [r7, #8]
-  57 0010 FFF7FEFF 		bl	__aeabi_i2d
-  58 0014 0446     		mov	r4, r0
-  59 0016 0D46     		mov	r5, r1
-  60 0018 3868     		ldr	r0, [r7]
-  61 001a FFF7FEFF 		bl	__aeabi_i2d
-  62 001e 0246     		mov	r2, r0
-  63 0020 0B46     		mov	r3, r1
-  64 0022 2046     		mov	r0, r4
-  65 0024 2946     		mov	r1, r5
-  66 0026 FFF7FEFF 		bl	__aeabi_ddiv
-  67 002a 0246     		mov	r2, r0
-  68 002c 0B46     		mov	r3, r1
-  69 002e C7E90E23 		strd	r2, [r7, #56]
+  57              		.loc 1 33 0
+  58 000c 0846     		mov	r0, r1
+  59              	.LVL1:
+  60 000e FFF7FEFF 		bl	__aeabi_i2d
+  61              	.LVL2:
+  62 0012 0446     		mov	r4, r0
+  63 0014 0D46     		mov	r5, r1
+  64 0016 4046     		mov	r0, r8
+  65 0018 FFF7FEFF 		bl	__aeabi_i2d
+  66              	.LVL3:
+  67 001c 0646     		mov	r6, r0
+  68 001e 0F46     		mov	r7, r1
+  69 0020 2046     		mov	r0, r4
+  70 0022 2946     		mov	r1, r5
+  71 0024 3246     		mov	r2, r6
+  72 0026 3B46     		mov	r3, r7
+  73 0028 FFF7FEFF 		bl	__aeabi_ddiv
+  74              	.LVL4:
+  75 002c 0446     		mov	r4, r0
+  76 002e 0D46     		mov	r5, r1
+  77              	.LVL5:
   34:Src/filter.c  ****     double f_step_normalized = 1.0 / window_size;
-  70              		.loc 1 34 0
-  71 0032 3868     		ldr	r0, [r7]
-  72 0034 FFF7FEFF 		bl	__aeabi_i2d
-  73 0038 0246     		mov	r2, r0
-  74 003a 0B46     		mov	r3, r1
-  75 003c 4FF00000 		mov	r0, #0
-  76 0040 5F49     		ldr	r1, .L5+8
-  77 0042 FFF7FEFF 		bl	__aeabi_ddiv
-  78 0046 0246     		mov	r2, r0
-  79 0048 0B46     		mov	r3, r1
-  80 004a C7E90C23 		strd	r2, [r7, #48]
+  78              		.loc 1 34 0
+  79 0030 0020     		movs	r0, #0
+  80 0032 3F49     		ldr	r1, .L5+8
+  81 0034 3246     		mov	r2, r6
+ARM GAS  /var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccUrIvW1.s 			page 3
+
+
+  82 0036 3B46     		mov	r3, r7
+  83 0038 FFF7FEFF 		bl	__aeabi_ddiv
+  84              	.LVL6:
+  85 003c 0646     		mov	r6, r0
+  86 003e 0F46     		mov	r7, r1
+  87              	.LVL7:
   35:Src/filter.c  **** 
-ARM GAS  /var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//cctheIXO.s 			page 3
-
-
   36:Src/filter.c  ****     double k = freq / f_step;
-  81              		.loc 1 36 0
-  82 004e 7868     		ldr	r0, [r7, #4]
-  83 0050 FFF7FEFF 		bl	__aeabi_i2d
-  84 0054 0246     		mov	r2, r0
-  85 0056 0B46     		mov	r3, r1
-  86 0058 1046     		mov	r0, r2
-  87 005a 1946     		mov	r1, r3
-  88 005c D7E90E23 		ldrd	r2, [r7, #56]
-  89 0060 FFF7FEFF 		bl	__aeabi_ddiv
-  90 0064 0246     		mov	r2, r0
-  91 0066 0B46     		mov	r3, r1
-  92 0068 C7E90A23 		strd	r2, [r7, #40]
+  88              		.loc 1 36 0
+  89 0040 5046     		mov	r0, r10
+  90 0042 FFF7FEFF 		bl	__aeabi_i2d
+  91              	.LVL8:
+  92 0046 2246     		mov	r2, r4
+  93 0048 2B46     		mov	r3, r5
+  94 004a FFF7FEFF 		bl	__aeabi_ddiv
+  95              	.LVL9:
   37:Src/filter.c  **** 
   38:Src/filter.c  ****     // number of frequencies is the same size as the number of
   39:Src/filter.c  ****     // upper and lower bin limits; loop through bin limits (i.e.
@@ -141,317 +144,299 @@ ARM GAS  /var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//cctheIXO.s 			page 1
   41:Src/filter.c  ****     double normalizedfreq, w_real;
   42:Src/filter.c  **** 
   43:Src/filter.c  ****     normalizedfreq = k * f_step_normalized;
-  93              		.loc 1 43 0
-  94 006c D7E90A01 		ldrd	r0, [r7, #40]
-  95 0070 D7E90C23 		ldrd	r2, [r7, #48]
-  96 0074 FFF7FEFF 		bl	__aeabi_dmul
-  97 0078 0246     		mov	r2, r0
-  98 007a 0B46     		mov	r3, r1
-  99 007c C7E90823 		strd	r2, [r7, #32]
+  96              		.loc 1 43 0
+  97 004e 3246     		mov	r2, r6
+  98 0050 3B46     		mov	r3, r7
+  99 0052 FFF7FEFF 		bl	__aeabi_dmul
+ 100              	.LVL10:
   44:Src/filter.c  ****     w_real = 2.0 * cos(2.0 * PI * normalizedfreq);
- 100              		.loc 1 44 0
- 101 0080 D7E90801 		ldrd	r0, [r7, #32]
- 102 0084 4CA3     		adr	r3, .L5
- 103 0086 D3E90023 		ldrd	r2, [r3]
- 104 008a FFF7FEFF 		bl	__aeabi_dmul
- 105 008e 0246     		mov	r2, r0
- 106 0090 0B46     		mov	r3, r1
- 107 0092 43EC172B 		fmdrr	d7, r2, r3
- 108 0096 B0EE470A 		fcpys	s0, s14
- 109 009a F0EE670A 		fcpys	s1, s15
- 110 009e FFF7FEFF 		bl	cos
- 111 00a2 53EC102B 		fmrrd	r2, r3, d0
- 112 00a6 1046     		mov	r0, r2
- 113 00a8 1946     		mov	r1, r3
- 114 00aa FFF7FEFF 		bl	__aeabi_dadd
- 115 00ae 0246     		mov	r2, r0
- 116 00b0 0B46     		mov	r3, r1
- 117 00b2 C7E90623 		strd	r2, [r7, #24]
+ 101              		.loc 1 44 0
+ 102 0056 34A3     		adr	r3, .L5
+ 103 0058 D3E90023 		ldrd	r2, [r3]
+ 104 005c FFF7FEFF 		bl	__aeabi_dmul
+ 105              	.LVL11:
+ 106 0060 41EC100B 		fmdrr	d0, r0, r1
+ 107 0064 FFF7FEFF 		bl	cos
+ 108              	.LVL12:
+ 109 0068 53EC102B 		fmrrd	r2, r3, d0
+ 110 006c 10EE100A 		fmrs	r0, s0	@ int
+ 111 0070 1946     		mov	r1, r3
+ 112 0072 FFF7FEFF 		bl	__aeabi_dadd
+ 113              	.LVL13:
+ 114 0076 CDE90201 		strd	r0, [sp, #8]
+ 115              	.LVL14:
   45:Src/filter.c  ****     double d1 = 0, d2 = 0, y = 0;
- 118              		.loc 1 45 0
- 119 00b6 4FF00002 		mov	r2, #0
- 120 00ba 4FF00003 		mov	r3, #0
- 121 00be C7E91423 		strd	r2, [r7, #80]
- 122 00c2 4FF00002 		mov	r2, #0
- 123 00c6 4FF00003 		mov	r3, #0
- 124 00ca C7E91223 		strd	r2, [r7, #72]
- 125 00ce 4FF00002 		mov	r2, #0
- 126 00d2 4FF00003 		mov	r3, #0
- 127 00d6 C7E90423 		strd	r2, [r7, #16]
-ARM GAS  /var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//cctheIXO.s 			page 4
-
-
   46:Src/filter.c  ****     int n = 0;
- 128              		.loc 1 46 0
- 129 00da 0023     		movs	r3, #0
- 130 00dc 7B64     		str	r3, [r7, #68]
+ 116              		.loc 1 46 0
+ 117 007a 4FF0000A 		mov	r10, #0
+ 118              	.LVL15:
+  45:Src/filter.c  ****     double d1 = 0, d2 = 0, y = 0;
+ 119              		.loc 1 45 0
+ 120 007e 0026     		movs	r6, #0
+ 121              	.LVL16:
+ 122 0080 0027     		movs	r7, #0
+ 123 0082 3446     		mov	r4, r6
+ 124              	.LVL17:
+ 125 0084 3D46     		mov	r5, r7
+ARM GAS  /var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccUrIvW1.s 			page 4
+
+
+ 126 0086 CDE90067 		strd	r6, [sp]
+ 127 008a 4E46     		mov	r6, r9
+ 128 008c C346     		mov	fp, r8
   47:Src/filter.c  ****     while (n < window_size)
- 131              		.loc 1 47 0
- 132 00de 2CE0     		b	.L2
- 133              	.L3:
+ 129              		.loc 1 47 0
+ 130 008e 1AE0     		b	.L2
+ 131              	.LVL18:
+ 132              	.L3:
   48:Src/filter.c  ****     {
   49:Src/filter.c  ****         y = x[n] + w_real * d1 - d2;
- 134              		.loc 1 49 0
- 135 00e0 7B6C     		ldr	r3, [r7, #68]
- 136 00e2 9B00     		lsls	r3, r3, #2
- 137 00e4 FA68     		ldr	r2, [r7, #12]
- 138 00e6 1344     		add	r3, r3, r2
- 139 00e8 1B68     		ldr	r3, [r3]
- 140 00ea 1846     		mov	r0, r3
- 141 00ec FFF7FEFF 		bl	__aeabi_i2d
- 142 00f0 0446     		mov	r4, r0
- 143 00f2 0D46     		mov	r5, r1
- 144 00f4 D7E90601 		ldrd	r0, [r7, #24]
- 145 00f8 D7E91423 		ldrd	r2, [r7, #80]
- 146 00fc FFF7FEFF 		bl	__aeabi_dmul
- 147 0100 0246     		mov	r2, r0
- 148 0102 0B46     		mov	r3, r1
- 149 0104 2046     		mov	r0, r4
- 150 0106 2946     		mov	r1, r5
- 151 0108 FFF7FEFF 		bl	__aeabi_dadd
- 152 010c 0246     		mov	r2, r0
- 153 010e 0B46     		mov	r3, r1
- 154 0110 1046     		mov	r0, r2
- 155 0112 1946     		mov	r1, r3
- 156 0114 D7E91223 		ldrd	r2, [r7, #72]
- 157 0118 FFF7FEFF 		bl	__aeabi_dsub
- 158 011c 0246     		mov	r2, r0
- 159 011e 0B46     		mov	r3, r1
- 160 0120 C7E90423 		strd	r2, [r7, #16]
+ 133              		.loc 1 49 0
+ 134 0090 56F82A70 		ldr	r7, [r6, r10, lsl #2]
+ 135 0094 DDE90201 		ldrd	r0, [sp, #8]
+ 136 0098 2246     		mov	r2, r4
+ 137 009a 2B46     		mov	r3, r5
+ 138 009c FFF7FEFF 		bl	__aeabi_dmul
+ 139              	.LVL19:
+ 140 00a0 8046     		mov	r8, r0
+ 141 00a2 8946     		mov	r9, r1
+ 142 00a4 3846     		mov	r0, r7
+ 143 00a6 FFF7FEFF 		bl	__aeabi_i2d
+ 144              	.LVL20:
+ 145 00aa 4246     		mov	r2, r8
+ 146 00ac 4B46     		mov	r3, r9
+ 147 00ae FFF7FEFF 		bl	__aeabi_dadd
+ 148              	.LVL21:
+ 149 00b2 DDE90023 		ldrd	r2, [sp]
+ 150 00b6 FFF7FEFF 		bl	__aeabi_dsub
+ 151              	.LVL22:
   50:Src/filter.c  ****         d2 = d1;
- 161              		.loc 1 50 0
- 162 0124 D7E91423 		ldrd	r2, [r7, #80]
- 163 0128 C7E91223 		strd	r2, [r7, #72]
   51:Src/filter.c  ****         d1 = y;
- 164              		.loc 1 51 0
- 165 012c D7E90423 		ldrd	r2, [r7, #16]
- 166 0130 C7E91423 		strd	r2, [r7, #80]
   52:Src/filter.c  ****         n++;
- 167              		.loc 1 52 0
- 168 0134 7B6C     		ldr	r3, [r7, #68]
- 169 0136 0133     		adds	r3, r3, #1
- 170 0138 7B64     		str	r3, [r7, #68]
- 171              	.L2:
+ 152              		.loc 1 52 0
+ 153 00ba 0AF1010A 		add	r10, r10, #1
+ 154              	.LVL23:
+  50:Src/filter.c  ****         d2 = d1;
+ 155              		.loc 1 50 0
+ 156 00be CDE90045 		strd	r4, [sp]
+  51:Src/filter.c  ****         n++;
+ 157              		.loc 1 51 0
+ 158 00c2 0446     		mov	r4, r0
+ 159              	.LVL24:
+ 160 00c4 0D46     		mov	r5, r1
+ 161              	.LVL25:
+ 162              	.L2:
   47:Src/filter.c  ****     {
- 172              		.loc 1 47 0
- 173 013a 7A6C     		ldr	r2, [r7, #68]
- 174 013c 3B68     		ldr	r3, [r7]
- 175 013e 9A42     		cmp	r2, r3
- 176 0140 CEDB     		blt	.L3
-ARM GAS  /var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//cctheIXO.s 			page 5
-
-
+ 163              		.loc 1 47 0
+ 164 00c6 DA45     		cmp	r10, fp
+ 165 00c8 E2DB     		blt	.L3
+ 166 00ca DDE90067 		ldrd	r6, [sp]
+ 167              	.LVL26:
   53:Src/filter.c  ****     }
   54:Src/filter.c  **** 
   55:Src/filter.c  ****     // Calculate power, and put it in its results spot
   56:Src/filter.c  ****     return d2 * d2 + d1 * d1 - w_real * d1 * d2;
- 177              		.loc 1 56 0
- 178 0142 D7E91201 		ldrd	r0, [r7, #72]
- 179 0146 D7E91223 		ldrd	r2, [r7, #72]
- 180 014a FFF7FEFF 		bl	__aeabi_dmul
- 181 014e 0246     		mov	r2, r0
- 182 0150 0B46     		mov	r3, r1
- 183 0152 1446     		mov	r4, r2
- 184 0154 1D46     		mov	r5, r3
- 185 0156 D7E91401 		ldrd	r0, [r7, #80]
- 186 015a D7E91423 		ldrd	r2, [r7, #80]
- 187 015e FFF7FEFF 		bl	__aeabi_dmul
- 188 0162 0246     		mov	r2, r0
- 189 0164 0B46     		mov	r3, r1
- 190 0166 2046     		mov	r0, r4
- 191 0168 2946     		mov	r1, r5
- 192 016a FFF7FEFF 		bl	__aeabi_dadd
- 193 016e 0246     		mov	r2, r0
- 194 0170 0B46     		mov	r3, r1
- 195 0172 1446     		mov	r4, r2
- 196 0174 1D46     		mov	r5, r3
- 197 0176 D7E90601 		ldrd	r0, [r7, #24]
- 198 017a D7E91423 		ldrd	r2, [r7, #80]
- 199 017e FFF7FEFF 		bl	__aeabi_dmul
- 200 0182 0246     		mov	r2, r0
- 201 0184 0B46     		mov	r3, r1
- 202 0186 1046     		mov	r0, r2
- 203 0188 1946     		mov	r1, r3
- 204 018a D7E91223 		ldrd	r2, [r7, #72]
- 205 018e FFF7FEFF 		bl	__aeabi_dmul
- 206 0192 0246     		mov	r2, r0
- 207 0194 0B46     		mov	r3, r1
- 208 0196 2046     		mov	r0, r4
- 209 0198 2946     		mov	r1, r5
- 210 019a FFF7FEFF 		bl	__aeabi_dsub
- 211 019e 0246     		mov	r2, r0
- 212 01a0 0B46     		mov	r3, r1
- 213 01a2 43EC172B 		fmdrr	d7, r2, r3
+ 168              		.loc 1 56 0
+ 169 00ce 3046     		mov	r0, r6
+ARM GAS  /var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccUrIvW1.s 			page 5
+
+
+ 170 00d0 3946     		mov	r1, r7
+ 171 00d2 3246     		mov	r2, r6
+ 172 00d4 3B46     		mov	r3, r7
+ 173 00d6 FFF7FEFF 		bl	__aeabi_dmul
+ 174              	.LVL27:
+ 175 00da 8046     		mov	r8, r0
+ 176 00dc 8946     		mov	r9, r1
+ 177 00de 2046     		mov	r0, r4
+ 178 00e0 2946     		mov	r1, r5
+ 179 00e2 2246     		mov	r2, r4
+ 180 00e4 2B46     		mov	r3, r5
+ 181 00e6 FFF7FEFF 		bl	__aeabi_dmul
+ 182              	.LVL28:
+ 183 00ea 0246     		mov	r2, r0
+ 184 00ec 0B46     		mov	r3, r1
+ 185 00ee 4046     		mov	r0, r8
+ 186 00f0 4946     		mov	r1, r9
+ 187 00f2 FFF7FEFF 		bl	__aeabi_dadd
+ 188              	.LVL29:
+ 189 00f6 8046     		mov	r8, r0
+ 190 00f8 8946     		mov	r9, r1
+ 191 00fa DDE90201 		ldrd	r0, [sp, #8]
+ 192 00fe 2246     		mov	r2, r4
+ 193 0100 2B46     		mov	r3, r5
+ 194 0102 FFF7FEFF 		bl	__aeabi_dmul
+ 195              	.LVL30:
+ 196 0106 3246     		mov	r2, r6
+ 197 0108 3B46     		mov	r3, r7
+ 198 010a FFF7FEFF 		bl	__aeabi_dmul
+ 199              	.LVL31:
+ 200 010e 0246     		mov	r2, r0
+ 201 0110 0B46     		mov	r3, r1
+ 202 0112 4046     		mov	r0, r8
+ 203 0114 4946     		mov	r1, r9
+ 204 0116 FFF7FEFF 		bl	__aeabi_dsub
+ 205              	.LVL32:
   57:Src/filter.c  **** }
- 214              		.loc 1 57 0
- 215 01a6 B0EE470A 		fcpys	s0, s14
- 216 01aa F0EE670A 		fcpys	s1, s15
- 217 01ae 5837     		adds	r7, r7, #88
- 218              	.LCFI3:
- 219              		.cfi_def_cfa_offset 16
- 220 01b0 BD46     		mov	sp, r7
- 221              	.LCFI4:
- 222              		.cfi_def_cfa_register 13
- 223              		@ sp needed
- 224 01b2 B0BD     		pop	{r4, r5, r7, pc}
- 225              	.L6:
- 226 01b4 AFF30080 		.align	3
- 227              	.L5:
- 228 01b8 182D4454 		.word	1413754136
-ARM GAS  /var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//cctheIXO.s 			page 6
+ 206              		.loc 1 57 0
+ 207 011a 41EC100B 		fmdrr	d0, r0, r1
+ 208 011e 05B0     		add	sp, sp, #20
+ 209              	.LCFI2:
+ 210              		.cfi_def_cfa_offset 36
+ 211              	.LVL33:
+ 212              		@ sp needed
+ 213 0120 BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 214              	.LVL34:
+ 215              	.L6:
+ 216 0124 AFF30080 		.align	3
+ 217              	.L5:
+ 218 0128 182D4454 		.word	1413754136
+ 219 012c FB211940 		.word	1075388923
+ 220 0130 0000F03F 		.word	1072693248
+ 221              		.cfi_endproc
+ 222              	.LFE0:
+ 224              		.section	.text.circular_goertzel_stream,"ax",%progbits
+ 225              		.align	2
+ 226              		.global	circular_goertzel_stream
+ARM GAS  /var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccUrIvW1.s 			page 6
 
 
- 229 01bc FB211940 		.word	1075388923
- 230 01c0 0000F03F 		.word	1072693248
- 231              		.cfi_endproc
- 232              	.LFE0:
- 234              		.section	.rodata
- 235              		.align	2
- 236              	.LC0:
- 237 0000 6E756D5F 		.ascii	"num_els: %lu, \000"
- 237      656C733A 
- 237      20256C75 
- 237      2C2000
- 238 000f 00       		.align	2
- 239              	.LC1:
- 240 0010 256600   		.ascii	"%f\000"
- 241              		.section	.text.circular_goertzel_stream,"ax",%progbits
- 242              		.align	2
- 243              		.global	circular_goertzel_stream
- 244              		.thumb
- 245              		.thumb_func
- 247              	circular_goertzel_stream:
- 248              	.LFB1:
+ 227              		.thumb
+ 228              		.thumb_func
+ 230              	circular_goertzel_stream:
+ 231              	.LFB1:
   58:Src/filter.c  **** 
   59:Src/filter.c  **** double circular_goertzel_stream(double x, int freq, int sample_rate, int window_size)
   60:Src/filter.c  **** {
- 249              		.loc 1 60 0
- 250              		.cfi_startproc
- 251              		@ args = 0, pretend = 0, frame = 72
- 252              		@ frame_needed = 1, uses_anonymous_args = 0
- 253 0000 B0B5     		push	{r4, r5, r7, lr}
- 254              	.LCFI5:
- 255              		.cfi_def_cfa_offset 16
- 256              		.cfi_offset 4, -16
- 257              		.cfi_offset 5, -12
- 258              		.cfi_offset 7, -8
- 259              		.cfi_offset 14, -4
- 260 0002 92B0     		sub	sp, sp, #72
- 261              	.LCFI6:
- 262              		.cfi_def_cfa_offset 88
- 263 0004 00AF     		add	r7, sp, #0
- 264              	.LCFI7:
- 265              		.cfi_def_cfa_register 7
- 266 0006 87ED040B 		fstd	d0, [r7, #16]
- 267 000a F860     		str	r0, [r7, #12]
- 268 000c B960     		str	r1, [r7, #8]
- 269 000e 7A60     		str	r2, [r7, #4]
+ 232              		.loc 1 60 0
+ 233              		.cfi_startproc
+ 234              		@ args = 0, pretend = 0, frame = 8
+ 235              		@ frame_needed = 0, uses_anonymous_args = 0
+ 236              	.LVL35:
+ 237 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 238              	.LCFI3:
+ 239              		.cfi_def_cfa_offset 36
+ 240              		.cfi_offset 4, -36
+ 241              		.cfi_offset 5, -32
+ 242              		.cfi_offset 6, -28
+ 243              		.cfi_offset 7, -24
+ 244              		.cfi_offset 8, -20
+ 245              		.cfi_offset 9, -16
+ 246              		.cfi_offset 10, -12
+ 247              		.cfi_offset 11, -8
+ 248              		.cfi_offset 14, -4
+ 249 0004 83B0     		sub	sp, sp, #12
+ 250              	.LCFI4:
+ 251              		.cfi_def_cfa_offset 48
+ 252 0006 59EC108B 		fmrrd	r8, r9, d0
+ 253 000a 8246     		mov	r10, r0
+ 254 000c 0D46     		mov	r5, r1
+ 255 000e 1446     		mov	r4, r2
   61:Src/filter.c  ****     // Set up and initialize circular_buffer
   62:Src/filter.c  ****     static int initialized = 0;
   63:Src/filter.c  ****     static circ_bufsum_t cbuf;
   64:Src/filter.c  ****     if (!initialized)
- 270              		.loc 1 64 0
- 271 0010 854B     		ldr	r3, .L10+8
- 272 0012 1B68     		ldr	r3, [r3]
- 273 0014 002B     		cmp	r3, #0
- 274 0016 07D1     		bne	.L8
+ 256              		.loc 1 64 0
+ 257 0010 5D4B     		ldr	r3, .L10+8
+ 258 0012 1B68     		ldr	r3, [r3]
+ 259 0014 3BB9     		cbnz	r3, .L8
   65:Src/filter.c  ****     {
   66:Src/filter.c  ****         circ_bufsum_init(&cbuf, window_size);
- 275              		.loc 1 66 0
-ARM GAS  /var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//cctheIXO.s 			page 7
-
-
- 276 0018 8448     		ldr	r0, .L10+12
- 277 001a 7968     		ldr	r1, [r7, #4]
- 278 001c FFF7FEFF 		bl	circ_bufsum_init
+ 260              		.loc 1 66 0
+ 261 0016 5D48     		ldr	r0, .L10+12
+ 262              	.LVL36:
+ 263 0018 1146     		mov	r1, r2
+ 264              	.LVL37:
+ 265 001a FFF7FEFF 		bl	circ_bufsum_init
+ 266              	.LVL38:
   67:Src/filter.c  ****         initialized = - 1;
- 279              		.loc 1 67 0
- 280 0020 814B     		ldr	r3, .L10+8
- 281 0022 4FF0FF32 		mov	r2, #-1
- 282 0026 1A60     		str	r2, [r3]
- 283              	.L8:
+ 267              		.loc 1 67 0
+ 268 001e 4FF0FF32 		mov	r2, #-1
+ 269 0022 594B     		ldr	r3, .L10+8
+ 270 0024 1A60     		str	r2, [r3]
+ 271              	.L8:
   68:Src/filter.c  ****     }
   69:Src/filter.c  **** 
   70:Src/filter.c  ****     // Set up initial parameters
+ARM GAS  /var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccUrIvW1.s 			page 7
+
+
   71:Src/filter.c  ****     double f_step = sample_rate / (double)window_size;
- 284              		.loc 1 71 0
- 285 0028 B868     		ldr	r0, [r7, #8]
- 286 002a FFF7FEFF 		bl	__aeabi_i2d
- 287 002e 0446     		mov	r4, r0
- 288 0030 0D46     		mov	r5, r1
- 289 0032 7868     		ldr	r0, [r7, #4]
- 290 0034 FFF7FEFF 		bl	__aeabi_i2d
- 291 0038 0246     		mov	r2, r0
- 292 003a 0B46     		mov	r3, r1
- 293 003c 2046     		mov	r0, r4
- 294 003e 2946     		mov	r1, r5
- 295 0040 FFF7FEFF 		bl	__aeabi_ddiv
- 296 0044 0246     		mov	r2, r0
- 297 0046 0B46     		mov	r3, r1
- 298 0048 C7E91023 		strd	r2, [r7, #64]
+ 272              		.loc 1 71 0
+ 273 0026 2846     		mov	r0, r5
+ 274 0028 FFF7FEFF 		bl	__aeabi_i2d
+ 275              	.LVL39:
+ 276 002c 0646     		mov	r6, r0
+ 277 002e 0F46     		mov	r7, r1
+ 278 0030 2046     		mov	r0, r4
+ 279 0032 FFF7FEFF 		bl	__aeabi_i2d
+ 280              	.LVL40:
+ 281 0036 0446     		mov	r4, r0
+ 282              	.LVL41:
+ 283 0038 0D46     		mov	r5, r1
+ 284              	.LVL42:
+ 285 003a 3046     		mov	r0, r6
+ 286 003c 3946     		mov	r1, r7
+ 287 003e 2246     		mov	r2, r4
+ 288 0040 2B46     		mov	r3, r5
+ 289 0042 FFF7FEFF 		bl	__aeabi_ddiv
+ 290              	.LVL43:
+ 291 0046 0646     		mov	r6, r0
+ 292 0048 0F46     		mov	r7, r1
+ 293              	.LVL44:
   72:Src/filter.c  ****     double f_step_normalized = 1.0 / window_size;
- 299              		.loc 1 72 0
- 300 004c 7868     		ldr	r0, [r7, #4]
- 301 004e FFF7FEFF 		bl	__aeabi_i2d
- 302 0052 0246     		mov	r2, r0
- 303 0054 0B46     		mov	r3, r1
- 304 0056 4FF00000 		mov	r0, #0
- 305 005a 7549     		ldr	r1, .L10+16
- 306 005c FFF7FEFF 		bl	__aeabi_ddiv
- 307 0060 0246     		mov	r2, r0
- 308 0062 0B46     		mov	r3, r1
- 309 0064 C7E90E23 		strd	r2, [r7, #56]
+ 294              		.loc 1 72 0
+ 295 004a 0020     		movs	r0, #0
+ 296 004c 5049     		ldr	r1, .L10+16
+ 297 004e 2246     		mov	r2, r4
+ 298 0050 2B46     		mov	r3, r5
+ 299 0052 FFF7FEFF 		bl	__aeabi_ddiv
+ 300              	.LVL45:
+ 301 0056 0446     		mov	r4, r0
+ 302 0058 0D46     		mov	r5, r1
+ 303              	.LVL46:
   73:Src/filter.c  **** 
   74:Src/filter.c  ****     // Calculate freq bin (for calc of frequency)
   75:Src/filter.c  ****     double k = freq / f_step;
- 310              		.loc 1 75 0
- 311 0068 F868     		ldr	r0, [r7, #12]
- 312 006a FFF7FEFF 		bl	__aeabi_i2d
- 313 006e 0246     		mov	r2, r0
- 314 0070 0B46     		mov	r3, r1
- 315 0072 1046     		mov	r0, r2
- 316 0074 1946     		mov	r1, r3
- 317 0076 D7E91023 		ldrd	r2, [r7, #64]
- 318 007a FFF7FEFF 		bl	__aeabi_ddiv
- 319 007e 0246     		mov	r2, r0
- 320 0080 0B46     		mov	r3, r1
- 321 0082 C7E90C23 		strd	r2, [r7, #48]
+ 304              		.loc 1 75 0
+ 305 005a 5046     		mov	r0, r10
+ 306 005c FFF7FEFF 		bl	__aeabi_i2d
+ 307              	.LVL47:
+ 308 0060 3246     		mov	r2, r6
+ 309 0062 3B46     		mov	r3, r7
+ 310 0064 FFF7FEFF 		bl	__aeabi_ddiv
+ 311              	.LVL48:
   76:Src/filter.c  **** 
   77:Src/filter.c  ****     // Get rid of for loop of num_freqs,etc
-ARM GAS  /var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//cctheIXO.s 			page 8
-
-
   78:Src/filter.c  ****     // Bin frequency and coefficients for computation
   79:Src/filter.c  ****     // TODO: MAKE STATIC? i.e. w_real is constant across t
   80:Src/filter.c  ****     //       for one frequency!
   81:Src/filter.c  ****     double normalizedfreq, w_real;
   82:Src/filter.c  ****     normalizedfreq = k * f_step_normalized;
- 322              		.loc 1 82 0
- 323 0086 D7E90C01 		ldrd	r0, [r7, #48]
- 324 008a D7E90E23 		ldrd	r2, [r7, #56]
- 325 008e FFF7FEFF 		bl	__aeabi_dmul
- 326 0092 0246     		mov	r2, r0
- 327 0094 0B46     		mov	r3, r1
- 328 0096 C7E90A23 		strd	r2, [r7, #40]
+ 312              		.loc 1 82 0
+ 313 0068 2246     		mov	r2, r4
+ 314 006a 2B46     		mov	r3, r5
+ 315 006c FFF7FEFF 		bl	__aeabi_dmul
+ 316              	.LVL49:
+ARM GAS  /var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccUrIvW1.s 			page 8
+
+
   83:Src/filter.c  ****     w_real = 2.0 * cos(2.0 * PI * normalizedfreq);
- 329              		.loc 1 83 0
- 330 009a D7E90A01 		ldrd	r0, [r7, #40]
- 331 009e 60A3     		adr	r3, .L10
- 332 00a0 D3E90023 		ldrd	r2, [r3]
- 333 00a4 FFF7FEFF 		bl	__aeabi_dmul
- 334 00a8 0246     		mov	r2, r0
- 335 00aa 0B46     		mov	r3, r1
- 336 00ac 43EC172B 		fmdrr	d7, r2, r3
- 337 00b0 B0EE470A 		fcpys	s0, s14
- 338 00b4 F0EE670A 		fcpys	s1, s15
- 339 00b8 FFF7FEFF 		bl	cos
- 340 00bc 53EC102B 		fmrrd	r2, r3, d0
- 341 00c0 1046     		mov	r0, r2
- 342 00c2 1946     		mov	r1, r3
- 343 00c4 FFF7FEFF 		bl	__aeabi_dadd
- 344 00c8 0246     		mov	r2, r0
- 345 00ca 0B46     		mov	r3, r1
- 346 00cc C7E90823 		strd	r2, [r7, #32]
+ 317              		.loc 1 83 0
+ 318 0070 43A3     		adr	r3, .L10
+ 319 0072 D3E90023 		ldrd	r2, [r3]
+ 320 0076 FFF7FEFF 		bl	__aeabi_dmul
+ 321              	.LVL50:
+ 322 007a 41EC100B 		fmdrr	d0, r0, r1
+ 323 007e FFF7FEFF 		bl	cos
+ 324              	.LVL51:
+ 325 0082 53EC102B 		fmrrd	r2, r3, d0
+ 326 0086 10EE100A 		fmrs	r0, s0	@ int
+ 327 008a 1946     		mov	r1, r3
+ 328 008c FFF7FEFF 		bl	__aeabi_dadd
+ 329              	.LVL52:
+ 330 0090 CDE90001 		strd	r0, [sp]
+ 331              	.LVL53:
   84:Src/filter.c  **** 
   85:Src/filter.c  ****     /*
   86:Src/filter.c  ****     ALGO:
@@ -466,188 +451,173 @@ ARM GAS  /var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//cctheIXO.s 			page 1
   95:Src/filter.c  ****     static double y  = 0;
   96:Src/filter.c  ****     static double total_power = 0;
   97:Src/filter.c  ****     printf("num_els: %lu, ", cbuf.num_els);
- 347              		.loc 1 97 0
- 348 00d0 564B     		ldr	r3, .L10+12
- 349 00d2 9B68     		ldr	r3, [r3, #8]
- 350 00d4 5748     		ldr	r0, .L10+20
- 351 00d6 1946     		mov	r1, r3
- 352 00d8 FFF7FEFF 		bl	printf
+ 332              		.loc 1 97 0
+ 333 0094 3D4C     		ldr	r4, .L10+12
+ 334              	.LVL54:
+ 335 0096 3F48     		ldr	r0, .L10+20
+ 336              	.LVL55:
+ 337 0098 A168     		ldr	r1, [r4, #8]
+ 338 009a FFF7FEFF 		bl	printf
+ 339              	.LVL56:
   98:Src/filter.c  ****     // Now the cbuf is full; add values, and subtract old y from d1
   99:Src/filter.c  ****     y = x + w_real * d1 - d2;
- 353              		.loc 1 99 0
- 354 00dc 564B     		ldr	r3, .L10+24
- 355 00de D3E90023 		ldrd	r2, [r3]
- 356 00e2 1046     		mov	r0, r2
-ARM GAS  /var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//cctheIXO.s 			page 9
+ 340              		.loc 1 99 0
+ 341 009e 3E4E     		ldr	r6, .L10+24
+ 342              	.LVL57:
+ 343 00a0 D6E900AB 		ldrd	r10, [r6]
+ 344              	.LVL58:
+ 345 00a4 DDE90001 		ldrd	r0, [sp]
+ 346 00a8 5246     		mov	r2, r10
+ 347 00aa 5B46     		mov	r3, fp
+ 348 00ac FFF7FEFF 		bl	__aeabi_dmul
+ 349              	.LVL59:
+ 350 00b0 4246     		mov	r2, r8
+ 351 00b2 4B46     		mov	r3, r9
+ 352 00b4 FFF7FEFF 		bl	__aeabi_dadd
+ 353              	.LVL60:
+ 354 00b8 384F     		ldr	r7, .L10+28
+ 355 00ba D7E90023 		ldrd	r2, [r7]
+ 356 00be FFF7FEFF 		bl	__aeabi_dsub
+ARM GAS  /var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccUrIvW1.s 			page 9
 
 
- 357 00e4 1946     		mov	r1, r3
- 358 00e6 D7E90823 		ldrd	r2, [r7, #32]
- 359 00ea FFF7FEFF 		bl	__aeabi_dmul
- 360 00ee 0246     		mov	r2, r0
- 361 00f0 0B46     		mov	r3, r1
- 362 00f2 1046     		mov	r0, r2
- 363 00f4 1946     		mov	r1, r3
- 364 00f6 D7E90423 		ldrd	r2, [r7, #16]
- 365 00fa FFF7FEFF 		bl	__aeabi_dadd
- 366 00fe 0246     		mov	r2, r0
- 367 0100 0B46     		mov	r3, r1
- 368 0102 1046     		mov	r0, r2
- 369 0104 1946     		mov	r1, r3
- 370 0106 4D4B     		ldr	r3, .L10+28
- 371 0108 D3E90023 		ldrd	r2, [r3]
- 372 010c FFF7FEFF 		bl	__aeabi_dsub
- 373 0110 0246     		mov	r2, r0
- 374 0112 0B46     		mov	r3, r1
- 375 0114 4A49     		ldr	r1, .L10+32
- 376 0116 C1E90023 		strd	r2, [r1]
+ 357              	.LVL61:
+ 358 00c2 41EC100B 		fmdrr	d0, r0, r1
+ 359 00c6 364D     		ldr	r5, .L10+32
+ 360 00c8 C5E90001 		strd	r0, [r5]
  100:Src/filter.c  ****     d2 = d1;
- 377              		.loc 1 100 0
- 378 011a 474B     		ldr	r3, .L10+24
- 379 011c D3E90023 		ldrd	r2, [r3]
- 380 0120 4649     		ldr	r1, .L10+28
- 381 0122 C1E90023 		strd	r2, [r1]
+ 361              		.loc 1 100 0
+ 362 00cc C7E900AB 		strd	r10, [r7]
  101:Src/filter.c  ****     double a = circ_bufsum_add_sample(&cbuf, y);
- 382              		.loc 1 101 0
- 383 0126 464B     		ldr	r3, .L10+32
- 384 0128 93ED007B 		fldd	d7, [r3]
- 385 012c 3F48     		ldr	r0, .L10+12
- 386 012e B0EE470A 		fcpys	s0, s14
- 387 0132 F0EE670A 		fcpys	s1, s15
- 388 0136 FFF7FEFF 		bl	circ_bufsum_add_sample
- 389 013a 87ED060B 		fstd	d0, [r7, #24]
+ 363              		.loc 1 101 0
+ 364 00d0 2046     		mov	r0, r4
+ 365 00d2 FFF7FEFF 		bl	circ_bufsum_add_sample
+ 366              	.LVL62:
+ 367 00d6 5BEC10AB 		fmrrd	r10, fp, d0
+ 368              	.LVL63:
  102:Src/filter.c  ****     d1 = y - a;
- 390              		.loc 1 102 0
- 391 013e 404B     		ldr	r3, .L10+32
- 392 0140 D3E90023 		ldrd	r2, [r3]
- 393 0144 1046     		mov	r0, r2
- 394 0146 1946     		mov	r1, r3
- 395 0148 D7E90623 		ldrd	r2, [r7, #24]
- 396 014c FFF7FEFF 		bl	__aeabi_dsub
- 397 0150 0246     		mov	r2, r0
- 398 0152 0B46     		mov	r3, r1
- 399 0154 3849     		ldr	r1, .L10+24
- 400 0156 C1E90023 		strd	r2, [r1]
+ 369              		.loc 1 102 0
+ 370 00da D5E90001 		ldrd	r0, [r5]
+ 371 00de 10EE102A 		fmrs	r2, s0	@ int
+ 372 00e2 5B46     		mov	r3, fp
+ 373 00e4 FFF7FEFF 		bl	__aeabi_dsub
+ 374              	.LVL64:
+ 375 00e8 C6E90001 		strd	r0, [r6]
  103:Src/filter.c  ****     printf("%f", a);
- 401              		.loc 1 103 0
- 402 015a 3A48     		ldr	r0, .L10+36
- 403 015c D7E90623 		ldrd	r2, [r7, #24]
- 404 0160 FFF7FEFF 		bl	printf
+ 376              		.loc 1 103 0
+ 377 00ec 2D48     		ldr	r0, .L10+36
+ 378 00ee 5246     		mov	r2, r10
+ 379 00f0 5B46     		mov	r3, fp
+ 380 00f2 FFF7FEFF 		bl	printf
+ 381              	.LVL65:
  104:Src/filter.c  **** 
  105:Src/filter.c  ****     // printf("FRQ: %.9f", normalizedfreq * sample_rate);
  106:Src/filter.c  ****     // printf(" VAL: %.9f\n", d2 * d2 + d1 * d1 - w_real * d1 * d2);
  107:Src/filter.c  ****     // // Calculate power, and put it in its results spot
  108:Src/filter.c  ****     // MAY NEED TO NORMAILZE POWER
-ARM GAS  /var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//cctheIXO.s 			page 10
-
-
  109:Src/filter.c  ****     total_power += x * x;
- 405              		.loc 1 109 0
- 406 0164 D7E90401 		ldrd	r0, [r7, #16]
- 407 0168 D7E90423 		ldrd	r2, [r7, #16]
- 408 016c FFF7FEFF 		bl	__aeabi_dmul
- 409 0170 0246     		mov	r2, r0
- 410 0172 0B46     		mov	r3, r1
- 411 0174 1046     		mov	r0, r2
- 412 0176 1946     		mov	r1, r3
- 413 0178 334B     		ldr	r3, .L10+40
- 414 017a D3E90023 		ldrd	r2, [r3]
- 415 017e FFF7FEFF 		bl	__aeabi_dadd
- 416 0182 0246     		mov	r2, r0
- 417 0184 0B46     		mov	r3, r1
- 418 0186 3049     		ldr	r1, .L10+40
- 419 0188 C1E90023 		strd	r2, [r1]
+ 382              		.loc 1 109 0
+ 383 00f6 4046     		mov	r0, r8
+ 384 00f8 4946     		mov	r1, r9
+ 385 00fa 4246     		mov	r2, r8
+ 386 00fc 4B46     		mov	r3, r9
+ 387 00fe FFF7FEFF 		bl	__aeabi_dmul
+ 388              	.LVL66:
+ 389 0102 294C     		ldr	r4, .L10+40
+ 390 0104 D4E90023 		ldrd	r2, [r4]
+ 391 0108 FFF7FEFF 		bl	__aeabi_dadd
+ 392              	.LVL67:
+ 393 010c 8246     		mov	r10, r0
+ 394              	.LVL68:
+ 395 010e 8B46     		mov	fp, r1
+ 396 0110 C4E900AB 		strd	r10, [r4]
  110:Src/filter.c  ****     return ((d2 * d2 + d1 * d1 - w_real * d1 * d2)) / (total_power);
- 420              		.loc 1 110 0
- 421 018c 2B4B     		ldr	r3, .L10+28
- 422 018e D3E90001 		ldrd	r0, [r3]
- 423 0192 2A4B     		ldr	r3, .L10+28
- 424 0194 D3E90023 		ldrd	r2, [r3]
- 425 0198 FFF7FEFF 		bl	__aeabi_dmul
- 426 019c 0246     		mov	r2, r0
- 427 019e 0B46     		mov	r3, r1
- 428 01a0 1446     		mov	r4, r2
- 429 01a2 1D46     		mov	r5, r3
- 430 01a4 244B     		ldr	r3, .L10+24
- 431 01a6 D3E90001 		ldrd	r0, [r3]
- 432 01aa 234B     		ldr	r3, .L10+24
- 433 01ac D3E90023 		ldrd	r2, [r3]
- 434 01b0 FFF7FEFF 		bl	__aeabi_dmul
- 435 01b4 0246     		mov	r2, r0
- 436 01b6 0B46     		mov	r3, r1
- 437 01b8 2046     		mov	r0, r4
- 438 01ba 2946     		mov	r1, r5
- 439 01bc FFF7FEFF 		bl	__aeabi_dadd
- 440 01c0 0246     		mov	r2, r0
- 441 01c2 0B46     		mov	r3, r1
- 442 01c4 1446     		mov	r4, r2
- 443 01c6 1D46     		mov	r5, r3
- 444 01c8 1B4B     		ldr	r3, .L10+24
- 445 01ca D3E90023 		ldrd	r2, [r3]
- 446 01ce 1046     		mov	r0, r2
- 447 01d0 1946     		mov	r1, r3
- 448 01d2 D7E90823 		ldrd	r2, [r7, #32]
- 449 01d6 FFF7FEFF 		bl	__aeabi_dmul
- 450 01da 0246     		mov	r2, r0
- 451 01dc 0B46     		mov	r3, r1
- 452 01de 1046     		mov	r0, r2
- 453 01e0 1946     		mov	r1, r3
- 454 01e2 164B     		ldr	r3, .L10+28
- 455 01e4 D3E90023 		ldrd	r2, [r3]
- 456 01e8 FFF7FEFF 		bl	__aeabi_dmul
- 457 01ec 0246     		mov	r2, r0
- 458 01ee 0B46     		mov	r3, r1
- 459 01f0 2046     		mov	r0, r4
-ARM GAS  /var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//cctheIXO.s 			page 11
+ 397              		.loc 1 110 0
+ 398 0114 D7E90089 		ldrd	r8, [r7]
+ 399              	.LVL69:
+ 400 0118 4046     		mov	r0, r8
+ 401 011a 4946     		mov	r1, r9
+ 402 011c 4246     		mov	r2, r8
+ARM GAS  /var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccUrIvW1.s 			page 10
 
 
- 460 01f2 2946     		mov	r1, r5
- 461 01f4 FFF7FEFF 		bl	__aeabi_dsub
- 462 01f8 0246     		mov	r2, r0
- 463 01fa 0B46     		mov	r3, r1
- 464 01fc 1046     		mov	r0, r2
- 465 01fe 1946     		mov	r1, r3
- 466 0200 114B     		ldr	r3, .L10+40
- 467 0202 D3E90023 		ldrd	r2, [r3]
- 468 0206 FFF7FEFF 		bl	__aeabi_ddiv
- 469 020a 0246     		mov	r2, r0
- 470 020c 0B46     		mov	r3, r1
- 471 020e 43EC172B 		fmdrr	d7, r2, r3
+ 403 011e 4B46     		mov	r3, r9
+ 404 0120 FFF7FEFF 		bl	__aeabi_dmul
+ 405              	.LVL70:
+ 406 0124 0446     		mov	r4, r0
+ 407 0126 0D46     		mov	r5, r1
+ 408 0128 D6E90067 		ldrd	r6, [r6]
+ 409 012c 3046     		mov	r0, r6
+ 410 012e 3946     		mov	r1, r7
+ 411 0130 3246     		mov	r2, r6
+ 412 0132 3B46     		mov	r3, r7
+ 413 0134 FFF7FEFF 		bl	__aeabi_dmul
+ 414              	.LVL71:
+ 415 0138 0246     		mov	r2, r0
+ 416 013a 0B46     		mov	r3, r1
+ 417 013c 2046     		mov	r0, r4
+ 418 013e 2946     		mov	r1, r5
+ 419 0140 FFF7FEFF 		bl	__aeabi_dadd
+ 420              	.LVL72:
+ 421 0144 0446     		mov	r4, r0
+ 422 0146 0D46     		mov	r5, r1
+ 423 0148 DDE90001 		ldrd	r0, [sp]
+ 424 014c 3246     		mov	r2, r6
+ 425 014e 3B46     		mov	r3, r7
+ 426 0150 FFF7FEFF 		bl	__aeabi_dmul
+ 427              	.LVL73:
+ 428 0154 0246     		mov	r2, r0
+ 429 0156 0B46     		mov	r3, r1
+ 430 0158 4046     		mov	r0, r8
+ 431 015a 4946     		mov	r1, r9
+ 432 015c FFF7FEFF 		bl	__aeabi_dmul
+ 433              	.LVL74:
+ 434 0160 0246     		mov	r2, r0
+ 435 0162 0B46     		mov	r3, r1
+ 436 0164 2046     		mov	r0, r4
+ 437 0166 2946     		mov	r1, r5
+ 438 0168 FFF7FEFF 		bl	__aeabi_dsub
+ 439              	.LVL75:
+ 440 016c 5246     		mov	r2, r10
+ 441 016e 5B46     		mov	r3, fp
+ 442 0170 FFF7FEFF 		bl	__aeabi_ddiv
+ 443              	.LVL76:
  111:Src/filter.c  **** }
- 472              		.loc 1 111 0
- 473 0212 B0EE470A 		fcpys	s0, s14
- 474 0216 F0EE670A 		fcpys	s1, s15
- 475 021a 4837     		adds	r7, r7, #72
- 476              	.LCFI8:
- 477              		.cfi_def_cfa_offset 16
- 478 021c BD46     		mov	sp, r7
- 479              	.LCFI9:
- 480              		.cfi_def_cfa_register 13
- 481              		@ sp needed
- 482 021e B0BD     		pop	{r4, r5, r7, pc}
- 483              	.L11:
- 484              		.align	3
- 485              	.L10:
- 486 0220 182D4454 		.word	1413754136
- 487 0224 FB211940 		.word	1075388923
- 488 0228 00000000 		.word	initialized.6053
- 489 022c 00000000 		.word	cbuf.6054
- 490 0230 0000F03F 		.word	1072693248
- 491 0234 00000000 		.word	.LC0
- 492 0238 00000000 		.word	d1.6060
- 493 023c 00000000 		.word	d2.6061
- 494 0240 00000000 		.word	y.6062
- 495 0244 10000000 		.word	.LC1
- 496 0248 00000000 		.word	total_power.6063
- 497              		.cfi_endproc
- 498              	.LFE1:
- 500              		.section	.text.tandem_goertzel_stream,"ax",%progbits
- 501              		.align	2
- 502              		.global	tandem_goertzel_stream
- 503              		.thumb
- 504              		.thumb_func
- 506              	tandem_goertzel_stream:
- 507              	.LFB2:
+ 444              		.loc 1 111 0
+ 445 0174 41EC100B 		fmdrr	d0, r0, r1
+ 446 0178 03B0     		add	sp, sp, #12
+ 447              	.LCFI5:
+ 448              		.cfi_def_cfa_offset 36
+ 449              	.LVL77:
+ 450              		@ sp needed
+ 451 017a BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 452              	.LVL78:
+ 453              	.L11:
+ 454 017e 00BF     		.align	3
+ 455              	.L10:
+ 456 0180 182D4454 		.word	1413754136
+ 457 0184 FB211940 		.word	1075388923
+ 458 0188 00000000 		.word	.LANCHOR0
+ARM GAS  /var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccUrIvW1.s 			page 11
+
+
+ 459 018c 00000000 		.word	.LANCHOR1
+ 460 0190 0000F03F 		.word	1072693248
+ 461 0194 00000000 		.word	.LC0
+ 462 0198 00000000 		.word	.LANCHOR2
+ 463 019c 00000000 		.word	.LANCHOR3
+ 464 01a0 00000000 		.word	.LANCHOR4
+ 465 01a4 10000000 		.word	.LC1
+ 466 01a8 00000000 		.word	.LANCHOR5
+ 467              		.cfi_endproc
+ 468              	.LFE1:
+ 470              		.section	.text.tandem_goertzel_stream,"ax",%progbits
+ 471              		.align	2
+ 472              		.global	tandem_goertzel_stream
+ 473              		.thumb
+ 474              		.thumb_func
+ 476              	tandem_goertzel_stream:
+ 477              	.LFB2:
  112:Src/filter.c  **** 
  113:Src/filter.c  **** /*
  114:Src/filter.c  **** Takes a stream of samples at sample_rate. returns current power every iteration
@@ -658,30 +628,28 @@ ARM GAS  /var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//cctheIXO.s 			page 1
  119:Src/filter.c  **** */
  120:Src/filter.c  **** double tandem_goertzel_stream(double x, int freq, int sample_rate, int resetsample)
  121:Src/filter.c  **** {
-ARM GAS  /var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//cctheIXO.s 			page 12
-
-
- 508              		.loc 1 121 0
- 509              		.cfi_startproc
- 510              		@ args = 0, pretend = 0, frame = 64
- 511              		@ frame_needed = 1, uses_anonymous_args = 0
- 512 0000 B0B5     		push	{r4, r5, r7, lr}
- 513              	.LCFI10:
- 514              		.cfi_def_cfa_offset 16
- 515              		.cfi_offset 4, -16
- 516              		.cfi_offset 5, -12
- 517              		.cfi_offset 7, -8
- 518              		.cfi_offset 14, -4
- 519 0002 90B0     		sub	sp, sp, #64
- 520              	.LCFI11:
- 521              		.cfi_def_cfa_offset 80
- 522 0004 00AF     		add	r7, sp, #0
- 523              	.LCFI12:
- 524              		.cfi_def_cfa_register 7
- 525 0006 87ED040B 		fstd	d0, [r7, #16]
- 526 000a F860     		str	r0, [r7, #12]
- 527 000c B960     		str	r1, [r7, #8]
- 528 000e 7A60     		str	r2, [r7, #4]
+ 478              		.loc 1 121 0
+ 479              		.cfi_startproc
+ 480              		@ args = 0, pretend = 0, frame = 16
+ 481              		@ frame_needed = 0, uses_anonymous_args = 0
+ 482              	.LVL79:
+ 483 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 484              	.LCFI6:
+ 485              		.cfi_def_cfa_offset 36
+ 486              		.cfi_offset 4, -36
+ 487              		.cfi_offset 5, -32
+ 488              		.cfi_offset 6, -28
+ 489              		.cfi_offset 7, -24
+ 490              		.cfi_offset 8, -20
+ 491              		.cfi_offset 9, -16
+ 492              		.cfi_offset 10, -12
+ 493              		.cfi_offset 11, -8
+ 494              		.cfi_offset 14, -4
+ 495 0004 85B0     		sub	sp, sp, #20
+ 496              	.LCFI7:
+ 497              		.cfi_def_cfa_offset 56
+ 498 0006 57EC106B 		fmrrd	r6, r7, d0
+ 499 000a 9046     		mov	r8, r2
  122:Src/filter.c  ****     static double s_prev[2] = {0.0, 0.0};
  123:Src/filter.c  ****     static double s_prev2[2] = {0.0, 0.0};
  124:Src/filter.c  ****     static double total_power[2] = {0.0, 0.0};
@@ -690,473 +658,413 @@ ARM GAS  /var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//cctheIXO.s 			page 1
  127:Src/filter.c  ****     int active;
  128:Src/filter.c  ****     static int n[2] = {0, 0};
  129:Src/filter.c  **** 
+ARM GAS  /var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccUrIvW1.s 			page 12
+
+
  130:Src/filter.c  ****     normalizedfreq = freq / sample_rate;
- 529              		.loc 1 130 0
- 530 0010 FA68     		ldr	r2, [r7, #12]
- 531 0012 BB68     		ldr	r3, [r7, #8]
- 532 0014 92FBF3F3 		sdiv	r3, r2, r3
- 533 0018 1846     		mov	r0, r3
- 534 001a FFF7FEFF 		bl	__aeabi_i2d
- 535 001e 0246     		mov	r2, r0
- 536 0020 0B46     		mov	r3, r1
- 537 0022 C7E90E23 		strd	r2, [r7, #56]
+ 500              		.loc 1 130 0
+ 501 000c 90FBF1F0 		sdiv	r0, r0, r1
+ 502              	.LVL80:
+ 503 0010 FFF7FEFF 		bl	__aeabi_i2d
+ 504              	.LVL81:
  131:Src/filter.c  ****     w_real = 2.0 * cos(2.0 * PI * normalizedfreq);
- 538              		.loc 1 131 0
- 539 0026 D7E90E01 		ldrd	r0, [r7, #56]
- 540 002a B4A3     		adr	r3, .L15+28
- 541 002c D3E90023 		ldrd	r2, [r3]
- 542 0030 FFF7FEFF 		bl	__aeabi_dmul
- 543 0034 0246     		mov	r2, r0
- 544 0036 0B46     		mov	r3, r1
- 545 0038 43EC172B 		fmdrr	d7, r2, r3
- 546 003c B0EE470A 		fcpys	s0, s14
- 547 0040 F0EE670A 		fcpys	s1, s15
- 548 0044 FFF7FEFF 		bl	cos
- 549 0048 53EC102B 		fmrrd	r2, r3, d0
- 550 004c 1046     		mov	r0, r2
- 551 004e 1946     		mov	r1, r3
- 552 0050 FFF7FEFF 		bl	__aeabi_dadd
- 553 0054 0246     		mov	r2, r0
- 554 0056 0B46     		mov	r3, r1
-ARM GAS  /var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//cctheIXO.s 			page 13
-
-
- 555 0058 C7E90C23 		strd	r2, [r7, #48]
+ 505              		.loc 1 131 0
+ 506 0014 6FA3     		adr	r3, .L15+28
+ 507 0016 D3E90023 		ldrd	r2, [r3]
+ 508 001a FFF7FEFF 		bl	__aeabi_dmul
+ 509              	.LVL82:
+ 510 001e 41EC100B 		fmdrr	d0, r0, r1
+ 511 0022 FFF7FEFF 		bl	cos
+ 512              	.LVL83:
+ 513 0026 53EC102B 		fmrrd	r2, r3, d0
+ 514 002a 10EE100A 		fmrs	r0, s0	@ int
+ 515 002e 1946     		mov	r1, r3
+ 516 0030 FFF7FEFF 		bl	__aeabi_dadd
+ 517              	.LVL84:
+ 518 0034 0246     		mov	r2, r0
+ 519 0036 0B46     		mov	r3, r1
+ 520 0038 CDE90023 		strd	r2, [sp]
+ 521              	.LVL85:
  132:Src/filter.c  **** 
  133:Src/filter.c  ****     // Calculate the first set of samples
  134:Src/filter.c  ****     s = x + w_real * s_prev[0] - s_prev2[0];
- 556              		.loc 1 134 0
- 557 005c A24B     		ldr	r3, .L15+8
- 558 005e D3E90023 		ldrd	r2, [r3]
- 559 0062 1046     		mov	r0, r2
- 560 0064 1946     		mov	r1, r3
- 561 0066 D7E90C23 		ldrd	r2, [r7, #48]
- 562 006a FFF7FEFF 		bl	__aeabi_dmul
- 563 006e 0246     		mov	r2, r0
- 564 0070 0B46     		mov	r3, r1
- 565 0072 1046     		mov	r0, r2
- 566 0074 1946     		mov	r1, r3
- 567 0076 D7E90423 		ldrd	r2, [r7, #16]
- 568 007a FFF7FEFF 		bl	__aeabi_dadd
- 569 007e 0246     		mov	r2, r0
- 570 0080 0B46     		mov	r3, r1
- 571 0082 1046     		mov	r0, r2
- 572 0084 1946     		mov	r1, r3
- 573 0086 994B     		ldr	r3, .L15+12
- 574 0088 D3E90023 		ldrd	r2, [r3]
- 575 008c FFF7FEFF 		bl	__aeabi_dsub
- 576 0090 0246     		mov	r2, r0
- 577 0092 0B46     		mov	r3, r1
- 578 0094 C7E90A23 		strd	r2, [r7, #40]
+ 522              		.loc 1 134 0
+ 523 003c 604C     		ldr	r4, .L15+8
+ 524 003e D4E900AB 		ldrd	r10, [r4]
+ 525 0042 5046     		mov	r0, r10
+ 526 0044 5946     		mov	r1, fp
+ 527 0046 FFF7FEFF 		bl	__aeabi_dmul
+ 528              	.LVL86:
+ 529 004a 3246     		mov	r2, r6
+ 530 004c 3B46     		mov	r3, r7
+ 531 004e FFF7FEFF 		bl	__aeabi_dadd
+ 532              	.LVL87:
+ 533 0052 DFF87C91 		ldr	r9, .L15+24
+ 534 0056 D9E90023 		ldrd	r2, [r9]
+ 535 005a FFF7FEFF 		bl	__aeabi_dsub
+ 536              	.LVL88:
  135:Src/filter.c  ****     s_prev2[0] = s_prev[0];
- 579              		.loc 1 135 0
- 580 0098 934B     		ldr	r3, .L15+8
- 581 009a D3E90023 		ldrd	r2, [r3]
- 582 009e 9349     		ldr	r1, .L15+12
- 583 00a0 C1E90023 		strd	r2, [r1]
+ 537              		.loc 1 135 0
+ 538 005e C9E900AB 		strd	r10, [r9]
  136:Src/filter.c  ****     s_prev[0] = s;
- 584              		.loc 1 136 0
- 585 00a4 9049     		ldr	r1, .L15+8
- 586 00a6 D7E90A23 		ldrd	r2, [r7, #40]
- 587 00aa C1E90023 		strd	r2, [r1]
+ 539              		.loc 1 136 0
+ 540 0062 C4E90001 		strd	r0, [r4]
  137:Src/filter.c  ****     n[0]++;
- 588              		.loc 1 137 0
- 589 00ae 904B     		ldr	r3, .L15+16
- 590 00b0 1B68     		ldr	r3, [r3]
- 591 00b2 0133     		adds	r3, r3, #1
- 592 00b4 8E4A     		ldr	r2, .L15+16
- 593 00b6 1360     		str	r3, [r2]
+ 541              		.loc 1 137 0
+ 542 0066 574D     		ldr	r5, .L15+12
+ 543 0068 2B68     		ldr	r3, [r5]
+ 544 006a 0133     		adds	r3, r3, #1
+ 545 006c 2B60     		str	r3, [r5]
  138:Src/filter.c  **** 
  139:Src/filter.c  ****     // Calculate the second set of samples
  140:Src/filter.c  ****     s = x + w_real * s_prev[1] - s_prev2[1];
- 594              		.loc 1 140 0
- 595 00b8 8B4B     		ldr	r3, .L15+8
- 596 00ba D3E90223 		ldrd	r2, [r3, #8]
- 597 00be 1046     		mov	r0, r2
- 598 00c0 1946     		mov	r1, r3
- 599 00c2 D7E90C23 		ldrd	r2, [r7, #48]
- 600 00c6 FFF7FEFF 		bl	__aeabi_dmul
- 601 00ca 0246     		mov	r2, r0
- 602 00cc 0B46     		mov	r3, r1
-ARM GAS  /var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//cctheIXO.s 			page 14
+ARM GAS  /var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccUrIvW1.s 			page 13
 
 
- 603 00ce 1046     		mov	r0, r2
- 604 00d0 1946     		mov	r1, r3
- 605 00d2 D7E90423 		ldrd	r2, [r7, #16]
- 606 00d6 FFF7FEFF 		bl	__aeabi_dadd
- 607 00da 0246     		mov	r2, r0
- 608 00dc 0B46     		mov	r3, r1
- 609 00de 1046     		mov	r0, r2
- 610 00e0 1946     		mov	r1, r3
- 611 00e2 824B     		ldr	r3, .L15+12
- 612 00e4 D3E90223 		ldrd	r2, [r3, #8]
- 613 00e8 FFF7FEFF 		bl	__aeabi_dsub
- 614 00ec 0246     		mov	r2, r0
- 615 00ee 0B46     		mov	r3, r1
- 616 00f0 C7E90A23 		strd	r2, [r7, #40]
+ 546              		.loc 1 140 0
+ 547 006e D4E902AB 		ldrd	r10, [r4, #8]
+ 548 0072 5046     		mov	r0, r10
+ 549              	.LVL89:
+ 550 0074 5946     		mov	r1, fp
+ 551 0076 DDE90023 		ldrd	r2, [sp]
+ 552 007a FFF7FEFF 		bl	__aeabi_dmul
+ 553              	.LVL90:
+ 554 007e 3246     		mov	r2, r6
+ 555 0080 3B46     		mov	r3, r7
+ 556 0082 FFF7FEFF 		bl	__aeabi_dadd
+ 557              	.LVL91:
+ 558 0086 D9E90223 		ldrd	r2, [r9, #8]
+ 559 008a FFF7FEFF 		bl	__aeabi_dsub
+ 560              	.LVL92:
  141:Src/filter.c  ****     s_prev2[1] = s_prev[1];
- 617              		.loc 1 141 0
- 618 00f4 7C4B     		ldr	r3, .L15+8
- 619 00f6 D3E90223 		ldrd	r2, [r3, #8]
- 620 00fa 7C49     		ldr	r1, .L15+12
- 621 00fc C1E90223 		strd	r2, [r1, #8]
+ 561              		.loc 1 141 0
+ 562 008e C9E902AB 		strd	r10, [r9, #8]
  142:Src/filter.c  ****     s_prev[1] = s;
- 622              		.loc 1 142 0
- 623 0100 7949     		ldr	r1, .L15+8
- 624 0102 D7E90A23 		ldrd	r2, [r7, #40]
- 625 0106 C1E90223 		strd	r2, [r1, #8]
+ 563              		.loc 1 142 0
+ 564 0092 C4E90201 		strd	r0, [r4, #8]
  143:Src/filter.c  ****     n[1]++;
- 626              		.loc 1 143 0
- 627 010a 794B     		ldr	r3, .L15+16
- 628 010c 5B68     		ldr	r3, [r3, #4]
- 629 010e 0133     		adds	r3, r3, #1
- 630 0110 774A     		ldr	r2, .L15+16
- 631 0112 5360     		str	r3, [r2, #4]
+ 565              		.loc 1 143 0
+ 566 0096 6B68     		ldr	r3, [r5, #4]
+ 567 0098 0133     		adds	r3, r3, #1
+ 568 009a 6B60     		str	r3, [r5, #4]
  144:Src/filter.c  **** 
  145:Src/filter.c  ****     N++;
- 632              		.loc 1 145 0
- 633 0114 774B     		ldr	r3, .L15+20
- 634 0116 1B68     		ldr	r3, [r3]
- 635 0118 0133     		adds	r3, r3, #1
- 636 011a 764A     		ldr	r2, .L15+20
- 637 011c 1360     		str	r3, [r2]
+ 569              		.loc 1 145 0
+ 570 009c 4A4B     		ldr	r3, .L15+16
+ 571 009e 1C68     		ldr	r4, [r3]
+ 572 00a0 0134     		adds	r4, r4, #1
+ 573 00a2 1C60     		str	r4, [r3]
  146:Src/filter.c  **** 
  147:Src/filter.c  ****     // reset inactive
  148:Src/filter.c  ****     active = (N / resetsample) & 0x01;
- 638              		.loc 1 148 0
- 639 011e 754B     		ldr	r3, .L15+20
- 640 0120 1A68     		ldr	r2, [r3]
- 641 0122 7B68     		ldr	r3, [r7, #4]
- 642 0124 92FBF3F3 		sdiv	r3, r2, r3
- 643 0128 03F00103 		and	r3, r3, #1
- 644 012c 7B62     		str	r3, [r7, #36]
+ 574              		.loc 1 148 0
+ 575 00a4 94FBF8F4 		sdiv	r4, r4, r8
+ 576 00a8 04F00104 		and	r4, r4, #1
+ 577              	.LVL93:
  149:Src/filter.c  ****     if (n[1 - active] >= resetsample)
- 645              		.loc 1 149 0
- 646 012e 7B6A     		ldr	r3, [r7, #36]
- 647 0130 C3F10103 		rsb	r3, r3, #1
- 648 0134 6E4A     		ldr	r2, .L15+16
- 649 0136 52F82320 		ldr	r2, [r2, r3, lsl #2]
- 650 013a 7B68     		ldr	r3, [r7, #4]
-ARM GAS  /var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//cctheIXO.s 			page 15
-
-
- 651 013c 9A42     		cmp	r2, r3
- 652 013e 2ADB     		blt	.L13
+ 578              		.loc 1 149 0
+ 579 00ac C4F10102 		rsb	r2, r4, #1
+ 580 00b0 55F82230 		ldr	r3, [r5, r2, lsl #2]
+ 581 00b4 4345     		cmp	r3, r8
+ 582 00b6 12DB     		blt	.L13
  150:Src/filter.c  ****     {
  151:Src/filter.c  ****         s_prev[1 - active] = 0.0;
- 653              		.loc 1 151 0
- 654 0140 7B6A     		ldr	r3, [r7, #36]
- 655 0142 C3F10103 		rsb	r3, r3, #1
- 656 0146 684A     		ldr	r2, .L15+8
- 657 0148 DB00     		lsls	r3, r3, #3
- 658 014a D118     		adds	r1, r2, r3
- 659 014c 4FF00002 		mov	r2, #0
- 660 0150 4FF00003 		mov	r3, #0
- 661 0154 C1E90023 		strd	r2, [r1]
+ 583              		.loc 1 151 0
+ 584 00b8 D300     		lsls	r3, r2, #3
+ 585 00ba 414D     		ldr	r5, .L15+8
+ 586 00bc 1D44     		add	r5, r5, r3
+ 587 00be 0020     		movs	r0, #0
+ 588              	.LVL94:
+ 589 00c0 0021     		movs	r1, #0
+ 590 00c2 C5E90001 		strd	r0, [r5]
+ 591              	.LVL95:
+ARM GAS  /var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccUrIvW1.s 			page 14
+
+
  152:Src/filter.c  ****         s_prev2[1 - active] = 0.0;
- 662              		.loc 1 152 0
- 663 0158 7B6A     		ldr	r3, [r7, #36]
- 664 015a C3F10103 		rsb	r3, r3, #1
- 665 015e 634A     		ldr	r2, .L15+12
- 666 0160 DB00     		lsls	r3, r3, #3
- 667 0162 D118     		adds	r1, r2, r3
- 668 0164 4FF00002 		mov	r2, #0
- 669 0168 4FF00003 		mov	r3, #0
- 670 016c C1E90023 		strd	r2, [r1]
+ 592              		.loc 1 152 0
+ 593 00c6 4D46     		mov	r5, r9
+ 594 00c8 1D44     		add	r5, r5, r3
+ 595 00ca C5E90001 		strd	r0, [r5]
  153:Src/filter.c  ****         total_power[1 - active] = 0.0;
- 671              		.loc 1 153 0
- 672 0170 7B6A     		ldr	r3, [r7, #36]
- 673 0172 C3F10103 		rsb	r3, r3, #1
- 674 0176 604A     		ldr	r2, .L15+24
- 675 0178 DB00     		lsls	r3, r3, #3
- 676 017a D118     		adds	r1, r2, r3
- 677 017c 4FF00002 		mov	r2, #0
- 678 0180 4FF00003 		mov	r3, #0
- 679 0184 C1E90023 		strd	r2, [r1]
+ 596              		.loc 1 153 0
+ 597 00ce 3F4D     		ldr	r5, .L15+20
+ 598 00d0 2B44     		add	r3, r3, r5
+ 599 00d2 C3E90001 		strd	r0, [r3]
  154:Src/filter.c  ****         n[1 - active] = 0;
- 680              		.loc 1 154 0
- 681 0188 7B6A     		ldr	r3, [r7, #36]
- 682 018a C3F10103 		rsb	r3, r3, #1
- 683 018e 584A     		ldr	r2, .L15+16
- 684 0190 0021     		movs	r1, #0
- 685 0192 42F82310 		str	r1, [r2, r3, lsl #2]
- 686              	.L13:
+ 600              		.loc 1 154 0
+ 601 00d6 0021     		movs	r1, #0
+ 602 00d8 3A4B     		ldr	r3, .L15+12
+ 603 00da 43F82210 		str	r1, [r3, r2, lsl #2]
+ 604              	.L13:
  155:Src/filter.c  ****     }
  156:Src/filter.c  ****     total_power[0] += x * x;
- 687              		.loc 1 156 0
- 688 0196 584B     		ldr	r3, .L15+24
- 689 0198 D3E90045 		ldrd	r4, [r3]
- 690 019c D7E90401 		ldrd	r0, [r7, #16]
- 691 01a0 D7E90423 		ldrd	r2, [r7, #16]
- 692 01a4 FFF7FEFF 		bl	__aeabi_dmul
- 693 01a8 0246     		mov	r2, r0
- 694 01aa 0B46     		mov	r3, r1
- 695 01ac 2046     		mov	r0, r4
- 696 01ae 2946     		mov	r1, r5
- 697 01b0 FFF7FEFF 		bl	__aeabi_dadd
- 698 01b4 0246     		mov	r2, r0
- 699 01b6 0B46     		mov	r3, r1
- 700 01b8 4F49     		ldr	r1, .L15+24
-ARM GAS  /var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//cctheIXO.s 			page 16
-
-
- 701 01ba C1E90023 		strd	r2, [r1]
+ 605              		.loc 1 156 0
+ 606 00de 3046     		mov	r0, r6
+ 607 00e0 3946     		mov	r1, r7
+ 608 00e2 3246     		mov	r2, r6
+ 609 00e4 3B46     		mov	r3, r7
+ 610 00e6 FFF7FEFF 		bl	__aeabi_dmul
+ 611              	.LVL96:
+ 612 00ea 0646     		mov	r6, r0
+ 613              	.LVL97:
+ 614 00ec 0F46     		mov	r7, r1
+ 615 00ee DFF8DC80 		ldr	r8, .L15+20
+ 616              	.LVL98:
+ 617 00f2 D8E90001 		ldrd	r0, [r8]
+ 618 00f6 3246     		mov	r2, r6
+ 619 00f8 3B46     		mov	r3, r7
+ 620 00fa FFF7FEFF 		bl	__aeabi_dadd
+ 621              	.LVL99:
+ 622 00fe C8E90001 		strd	r0, [r8]
  157:Src/filter.c  ****     total_power[1] += x * x;
- 702              		.loc 1 157 0
- 703 01be 4E4B     		ldr	r3, .L15+24
- 704 01c0 D3E90245 		ldrd	r4, [r3, #8]
- 705 01c4 D7E90401 		ldrd	r0, [r7, #16]
- 706 01c8 D7E90423 		ldrd	r2, [r7, #16]
- 707 01cc FFF7FEFF 		bl	__aeabi_dmul
- 708 01d0 0246     		mov	r2, r0
- 709 01d2 0B46     		mov	r3, r1
- 710 01d4 2046     		mov	r0, r4
- 711 01d6 2946     		mov	r1, r5
- 712 01d8 FFF7FEFF 		bl	__aeabi_dadd
- 713 01dc 0246     		mov	r2, r0
- 714 01de 0B46     		mov	r3, r1
- 715 01e0 4549     		ldr	r1, .L15+24
- 716 01e2 C1E90223 		strd	r2, [r1, #8]
+ 623              		.loc 1 157 0
+ 624 0102 3046     		mov	r0, r6
+ 625 0104 3946     		mov	r1, r7
+ 626 0106 D8E90223 		ldrd	r2, [r8, #8]
+ 627 010a FFF7FEFF 		bl	__aeabi_dadd
+ 628              	.LVL100:
+ 629 010e C8E90201 		strd	r0, [r8, #8]
  158:Src/filter.c  ****     power = s_prev2[active] * s_prev2[active] + s_prev[active] * s_prev[active] - w_real * s_prev[a
- 717              		.loc 1 158 0
- 718 01e6 414A     		ldr	r2, .L15+12
- 719 01e8 7B6A     		ldr	r3, [r7, #36]
- 720 01ea DB00     		lsls	r3, r3, #3
- 721 01ec 1344     		add	r3, r3, r2
- 722 01ee D3E90001 		ldrd	r0, [r3]
- 723 01f2 3E4A     		ldr	r2, .L15+12
- 724 01f4 7B6A     		ldr	r3, [r7, #36]
- 725 01f6 DB00     		lsls	r3, r3, #3
- 726 01f8 1344     		add	r3, r3, r2
- 727 01fa D3E90023 		ldrd	r2, [r3]
- 728 01fe FFF7FEFF 		bl	__aeabi_dmul
- 729 0202 0246     		mov	r2, r0
- 730 0204 0B46     		mov	r3, r1
- 731 0206 1446     		mov	r4, r2
- 732 0208 1D46     		mov	r5, r3
- 733 020a 374A     		ldr	r2, .L15+8
- 734 020c 7B6A     		ldr	r3, [r7, #36]
- 735 020e DB00     		lsls	r3, r3, #3
- 736 0210 1344     		add	r3, r3, r2
- 737 0212 D3E90001 		ldrd	r0, [r3]
- 738 0216 344A     		ldr	r2, .L15+8
- 739 0218 7B6A     		ldr	r3, [r7, #36]
- 740 021a DB00     		lsls	r3, r3, #3
- 741 021c 1344     		add	r3, r3, r2
- 742 021e D3E90023 		ldrd	r2, [r3]
- 743 0222 FFF7FEFF 		bl	__aeabi_dmul
- 744 0226 0246     		mov	r2, r0
- 745 0228 0B46     		mov	r3, r1
- 746 022a 2046     		mov	r0, r4
- 747 022c 2946     		mov	r1, r5
- 748 022e FFF7FEFF 		bl	__aeabi_dadd
- 749 0232 0246     		mov	r2, r0
- 750 0234 0B46     		mov	r3, r1
- 751 0236 1446     		mov	r4, r2
- 752 0238 1D46     		mov	r5, r3
- 753 023a 2B4A     		ldr	r2, .L15+8
- 754 023c 7B6A     		ldr	r3, [r7, #36]
- 755 023e DB00     		lsls	r3, r3, #3
-ARM GAS  /var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//cctheIXO.s 			page 17
+ 630              		.loc 1 158 0
+ 631 0112 E500     		lsls	r5, r4, #3
+ 632 0114 2E4B     		ldr	r3, .L15+24
+ 633 0116 2B44     		add	r3, r3, r5
+ 634 0118 D3E90067 		ldrd	r6, [r3]
+ 635 011c 3046     		mov	r0, r6
+ 636 011e 3946     		mov	r1, r7
+ 637 0120 3246     		mov	r2, r6
+ 638 0122 3B46     		mov	r3, r7
+ 639 0124 FFF7FEFF 		bl	__aeabi_dmul
+ 640              	.LVL101:
+ 641 0128 CDE90201 		strd	r0, [sp, #8]
+ARM GAS  /var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccUrIvW1.s 			page 15
 
 
- 756 0240 1344     		add	r3, r3, r2
- 757 0242 D3E90023 		ldrd	r2, [r3]
- 758 0246 1046     		mov	r0, r2
- 759 0248 1946     		mov	r1, r3
- 760 024a D7E90C23 		ldrd	r2, [r7, #48]
- 761 024e FFF7FEFF 		bl	__aeabi_dmul
- 762 0252 0246     		mov	r2, r0
- 763 0254 0B46     		mov	r3, r1
- 764 0256 1046     		mov	r0, r2
- 765 0258 1946     		mov	r1, r3
- 766 025a 244A     		ldr	r2, .L15+12
- 767 025c 7B6A     		ldr	r3, [r7, #36]
- 768 025e DB00     		lsls	r3, r3, #3
- 769 0260 1344     		add	r3, r3, r2
- 770 0262 D3E90023 		ldrd	r2, [r3]
- 771 0266 FFF7FEFF 		bl	__aeabi_dmul
- 772 026a 0246     		mov	r2, r0
- 773 026c 0B46     		mov	r3, r1
- 774 026e 2046     		mov	r0, r4
- 775 0270 2946     		mov	r1, r5
- 776 0272 FFF7FEFF 		bl	__aeabi_dsub
- 777 0276 0246     		mov	r2, r0
- 778 0278 0B46     		mov	r3, r1
- 779 027a C7E90623 		strd	r2, [r7, #24]
+ 642 012c 244B     		ldr	r3, .L15+8
+ 643 012e 2B44     		add	r3, r3, r5
+ 644 0130 D3E900AB 		ldrd	r10, [r3]
+ 645 0134 5046     		mov	r0, r10
+ 646 0136 5946     		mov	r1, fp
+ 647 0138 5246     		mov	r2, r10
+ 648 013a 5B46     		mov	r3, fp
+ 649 013c FFF7FEFF 		bl	__aeabi_dmul
+ 650              	.LVL102:
+ 651 0140 0246     		mov	r2, r0
+ 652 0142 0B46     		mov	r3, r1
+ 653 0144 DDE90201 		ldrd	r0, [sp, #8]
+ 654 0148 FFF7FEFF 		bl	__aeabi_dadd
+ 655              	.LVL103:
+ 656 014c CDE90201 		strd	r0, [sp, #8]
+ 657 0150 DDE90001 		ldrd	r0, [sp]
+ 658 0154 5246     		mov	r2, r10
+ 659 0156 5B46     		mov	r3, fp
+ 660 0158 FFF7FEFF 		bl	__aeabi_dmul
+ 661              	.LVL104:
+ 662 015c 0246     		mov	r2, r0
+ 663 015e 0B46     		mov	r3, r1
+ 664 0160 3046     		mov	r0, r6
+ 665 0162 3946     		mov	r1, r7
+ 666 0164 FFF7FEFF 		bl	__aeabi_dmul
+ 667              	.LVL105:
+ 668 0168 0246     		mov	r2, r0
+ 669 016a 0B46     		mov	r3, r1
+ 670 016c DDE90201 		ldrd	r0, [sp, #8]
+ 671 0170 FFF7FEFF 		bl	__aeabi_dsub
+ 672              	.LVL106:
+ 673 0174 0646     		mov	r6, r0
+ 674 0176 0F46     		mov	r7, r1
+ 675              	.LVL107:
  159:Src/filter.c  **** 
  160:Src/filter.c  ****     // printf("\n\npoooower %f\n", power);
  161:Src/filter.c  ****     return power / (total_power[active] + 1e-7) / n[active];
- 780              		.loc 1 161 0
- 781 027e 1E4A     		ldr	r2, .L15+24
- 782 0280 7B6A     		ldr	r3, [r7, #36]
- 783 0282 DB00     		lsls	r3, r3, #3
- 784 0284 1344     		add	r3, r3, r2
- 785 0286 D3E90023 		ldrd	r2, [r3]
- 786 028a 1046     		mov	r0, r2
- 787 028c 1946     		mov	r1, r3
- 788 028e 14A3     		adr	r3, .L15
- 789 0290 D3E90023 		ldrd	r2, [r3]
- 790 0294 FFF7FEFF 		bl	__aeabi_dadd
- 791 0298 0246     		mov	r2, r0
- 792 029a 0B46     		mov	r3, r1
- 793 029c D7E90601 		ldrd	r0, [r7, #24]
- 794 02a0 FFF7FEFF 		bl	__aeabi_ddiv
- 795 02a4 0246     		mov	r2, r0
- 796 02a6 0B46     		mov	r3, r1
- 797 02a8 1446     		mov	r4, r2
- 798 02aa 1D46     		mov	r5, r3
- 799 02ac 104A     		ldr	r2, .L15+16
- 800 02ae 7B6A     		ldr	r3, [r7, #36]
- 801 02b0 52F82330 		ldr	r3, [r2, r3, lsl #2]
- 802 02b4 1846     		mov	r0, r3
- 803 02b6 FFF7FEFF 		bl	__aeabi_i2d
- 804 02ba 0246     		mov	r2, r0
- 805 02bc 0B46     		mov	r3, r1
- 806 02be 2046     		mov	r0, r4
- 807 02c0 2946     		mov	r1, r5
- 808 02c2 FFF7FEFF 		bl	__aeabi_ddiv
- 809 02c6 0246     		mov	r2, r0
-ARM GAS  /var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//cctheIXO.s 			page 18
+ 676              		.loc 1 161 0
+ 677 0178 4544     		add	r5, r5, r8
+ 678 017a D5E90001 		ldrd	r0, [r5]
+ 679 017e 0EA3     		adr	r3, .L15
+ 680 0180 D3E90023 		ldrd	r2, [r3]
+ 681 0184 FFF7FEFF 		bl	__aeabi_dadd
+ 682              	.LVL108:
+ 683 0188 0246     		mov	r2, r0
+ 684 018a 0B46     		mov	r3, r1
+ 685 018c 3046     		mov	r0, r6
+ 686 018e 3946     		mov	r1, r7
+ 687 0190 FFF7FEFF 		bl	__aeabi_ddiv
+ 688              	.LVL109:
+ 689 0194 0646     		mov	r6, r0
+ 690              	.LVL110:
+ 691 0196 0F46     		mov	r7, r1
+ 692 0198 0A4B     		ldr	r3, .L15+12
+ 693 019a 53F82400 		ldr	r0, [r3, r4, lsl #2]
+ 694 019e FFF7FEFF 		bl	__aeabi_i2d
+ 695              	.LVL111:
+ARM GAS  /var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccUrIvW1.s 			page 16
 
 
- 810 02c8 0B46     		mov	r3, r1
- 811 02ca 43EC172B 		fmdrr	d7, r2, r3
+ 696 01a2 0246     		mov	r2, r0
+ 697 01a4 0B46     		mov	r3, r1
+ 698 01a6 3046     		mov	r0, r6
+ 699 01a8 3946     		mov	r1, r7
+ 700 01aa FFF7FEFF 		bl	__aeabi_ddiv
+ 701              	.LVL112:
  162:Src/filter.c  **** }
- 812              		.loc 1 162 0
- 813 02ce B0EE470A 		fcpys	s0, s14
- 814 02d2 F0EE670A 		fcpys	s1, s15
- 815 02d6 4037     		adds	r7, r7, #64
- 816              	.LCFI13:
- 817              		.cfi_def_cfa_offset 16
- 818 02d8 BD46     		mov	sp, r7
- 819              	.LCFI14:
- 820              		.cfi_def_cfa_register 13
- 821              		@ sp needed
- 822 02da B0BD     		pop	{r4, r5, r7, pc}
- 823              	.L16:
- 824 02dc AFF30080 		.align	3
- 825              	.L15:
- 826 02e0 48AFBC9A 		.word	2596056904
- 827 02e4 F2D77A3E 		.word	1048238066
- 828 02e8 00000000 		.word	s_prev.6071
- 829 02ec 00000000 		.word	s_prev2.6072
- 830 02f0 00000000 		.word	n.6080
- 831 02f4 00000000 		.word	N.6074
- 832 02f8 00000000 		.word	total_power.6073
- 833 02fc 182D4454 		.word	1413754136
- 834 0300 FB211940 		.word	1075388923
- 835              		.cfi_endproc
- 836              	.LFE2:
- 838              		.section	.bss.initialized.6053,"aw",%nobits
- 839              		.align	2
- 842              	initialized.6053:
- 843 0000 00000000 		.space	4
- 844              		.section	.bss.cbuf.6054,"aw",%nobits
- 845              		.align	2
- 848              	cbuf.6054:
- 849 0000 00000000 		.space	24
- 849      00000000 
- 849      00000000 
- 849      00000000 
- 849      00000000 
- 850              		.section	.bss.d1.6060,"aw",%nobits
- 851              		.align	3
- 854              	d1.6060:
- 855 0000 00000000 		.space	8
- 855      00000000 
- 856              		.section	.bss.d2.6061,"aw",%nobits
- 857              		.align	3
- 860              	d2.6061:
- 861 0000 00000000 		.space	8
- 861      00000000 
- 862              		.section	.bss.y.6062,"aw",%nobits
- 863              		.align	3
- 866              	y.6062:
- 867 0000 00000000 		.space	8
- 867      00000000 
- 868              		.section	.bss.total_power.6063,"aw",%nobits
- 869              		.align	3
-ARM GAS  /var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//cctheIXO.s 			page 19
+ 702              		.loc 1 162 0
+ 703 01ae 41EC100B 		fmdrr	d0, r0, r1
+ 704 01b2 05B0     		add	sp, sp, #20
+ 705              	.LCFI8:
+ 706              		.cfi_def_cfa_offset 36
+ 707              	.LVL113:
+ 708              		@ sp needed
+ 709 01b4 BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 710              	.LVL114:
+ 711              	.L16:
+ 712              		.align	3
+ 713              	.L15:
+ 714 01b8 48AFBC9A 		.word	2596056904
+ 715 01bc F2D77A3E 		.word	1048238066
+ 716 01c0 00000000 		.word	.LANCHOR6
+ 717 01c4 00000000 		.word	.LANCHOR8
+ 718 01c8 00000000 		.word	.LANCHOR9
+ 719 01cc 00000000 		.word	.LANCHOR10
+ 720 01d0 00000000 		.word	.LANCHOR7
+ 721 01d4 182D4454 		.word	1413754136
+ 722 01d8 FB211940 		.word	1075388923
+ 723              		.cfi_endproc
+ 724              	.LFE2:
+ 726              		.section	.bss.y.6062,"aw",%nobits
+ 727              		.align	3
+ 728              		.set	.LANCHOR4,. + 0
+ 731              	y.6062:
+ 732 0000 00000000 		.space	8
+ 732      00000000 
+ 733              		.section	.bss.d1.6060,"aw",%nobits
+ 734              		.align	3
+ 735              		.set	.LANCHOR2,. + 0
+ 738              	d1.6060:
+ 739 0000 00000000 		.space	8
+ 739      00000000 
+ 740              		.section	.bss.N.6074,"aw",%nobits
+ 741              		.align	2
+ 742              		.set	.LANCHOR9,. + 0
+ 745              	N.6074:
+ 746 0000 00000000 		.space	4
+ 747              		.section	.bss.s_prev.6071,"aw",%nobits
+ 748              		.align	3
+ 749              		.set	.LANCHOR6,. + 0
+ 752              	s_prev.6071:
+ 753 0000 00000000 		.space	16
+ 753      00000000 
+ 753      00000000 
+ 753      00000000 
+ 754              		.section	.bss.cbuf.6054,"aw",%nobits
+ 755              		.align	2
+ARM GAS  /var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccUrIvW1.s 			page 17
 
 
- 872              	total_power.6063:
- 873 0000 00000000 		.space	8
- 873      00000000 
- 874              		.section	.bss.s_prev.6071,"aw",%nobits
- 875              		.align	3
- 878              	s_prev.6071:
- 879 0000 00000000 		.space	16
- 879      00000000 
- 879      00000000 
- 879      00000000 
- 880              		.section	.bss.s_prev2.6072,"aw",%nobits
- 881              		.align	3
- 884              	s_prev2.6072:
- 885 0000 00000000 		.space	16
- 885      00000000 
- 885      00000000 
- 885      00000000 
- 886              		.section	.bss.n.6080,"aw",%nobits
- 887              		.align	2
- 890              	n.6080:
- 891 0000 00000000 		.space	8
- 891      00000000 
- 892              		.section	.bss.N.6074,"aw",%nobits
- 893              		.align	2
- 896              	N.6074:
- 897 0000 00000000 		.space	4
- 898              		.section	.bss.total_power.6073,"aw",%nobits
- 899              		.align	3
- 902              	total_power.6073:
- 903 0000 00000000 		.space	16
- 903      00000000 
- 903      00000000 
- 903      00000000 
- 904              		.text
- 905              	.Letext0:
- 906              		.file 2 "/usr/local/Cellar/arm-none-eabi-gcc/20150921/arm-none-eabi/include/machine/_default_types
- 907              		.file 3 "/usr/local/Cellar/arm-none-eabi-gcc/20150921/lib/gcc/arm-none-eabi/4.9.3/include/stddef.h
- 908              		.file 4 "/usr/local/Cellar/arm-none-eabi-gcc/20150921/arm-none-eabi/include/sys/_stdint.h"
- 909              		.file 5 "Inc/circular_buffer.h"
-ARM GAS  /var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//cctheIXO.s 			page 20
+ 756              		.set	.LANCHOR1,. + 0
+ 759              	cbuf.6054:
+ 760 0000 00000000 		.space	24
+ 760      00000000 
+ 760      00000000 
+ 760      00000000 
+ 760      00000000 
+ 761              		.section	.bss.initialized.6053,"aw",%nobits
+ 762              		.align	2
+ 763              		.set	.LANCHOR0,. + 0
+ 766              	initialized.6053:
+ 767 0000 00000000 		.space	4
+ 768              		.section	.bss.n.6080,"aw",%nobits
+ 769              		.align	2
+ 770              		.set	.LANCHOR8,. + 0
+ 773              	n.6080:
+ 774 0000 00000000 		.space	8
+ 774      00000000 
+ 775              		.section	.rodata.str1.4,"aMS",%progbits,1
+ 776              		.align	2
+ 777              	.LC0:
+ 778 0000 6E756D5F 		.ascii	"num_els: %lu, \000"
+ 778      656C733A 
+ 778      20256C75 
+ 778      2C2000
+ 779 000f 00       		.space	1
+ 780              	.LC1:
+ 781 0010 256600   		.ascii	"%f\000"
+ 782              		.section	.bss.total_power.6063,"aw",%nobits
+ 783              		.align	3
+ 784              		.set	.LANCHOR5,. + 0
+ 787              	total_power.6063:
+ 788 0000 00000000 		.space	8
+ 788      00000000 
+ 789              		.section	.bss.s_prev2.6072,"aw",%nobits
+ 790              		.align	3
+ 791              		.set	.LANCHOR7,. + 0
+ 794              	s_prev2.6072:
+ 795 0000 00000000 		.space	16
+ 795      00000000 
+ 795      00000000 
+ 795      00000000 
+ 796              		.section	.bss.d2.6061,"aw",%nobits
+ 797              		.align	3
+ 798              		.set	.LANCHOR3,. + 0
+ 801              	d2.6061:
+ 802 0000 00000000 		.space	8
+ 802      00000000 
+ 803              		.section	.bss.total_power.6073,"aw",%nobits
+ 804              		.align	3
+ 805              		.set	.LANCHOR10,. + 0
+ 808              	total_power.6073:
+ 809 0000 00000000 		.space	16
+ 809      00000000 
+ 809      00000000 
+ 809      00000000 
+ 810              		.text
+ARM GAS  /var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccUrIvW1.s 			page 18
+
+
+ 811              	.Letext0:
+ 812              		.file 2 "/usr/local/Cellar/arm-none-eabi-gcc/20150921/arm-none-eabi/include/machine/_default_types
+ 813              		.file 3 "/usr/local/Cellar/arm-none-eabi-gcc/20150921/lib/gcc/arm-none-eabi/4.9.3/include/stddef.h
+ 814              		.file 4 "/usr/local/Cellar/arm-none-eabi-gcc/20150921/arm-none-eabi/include/sys/_stdint.h"
+ 815              		.file 5 "Inc/circular_buffer.h"
+ 816              		.file 6 "/usr/local/Cellar/arm-none-eabi-gcc/20150921/arm-none-eabi/include/stdio.h"
+ 817              		.file 7 "/usr/local/Cellar/arm-none-eabi-gcc/20150921/arm-none-eabi/include/math.h"
+ARM GAS  /var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccUrIvW1.s 			page 19
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 filter.c
-/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//cctheIXO.s:26     .text.goertzel:0000000000000000 $t
-/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//cctheIXO.s:31     .text.goertzel:0000000000000000 goertzel
-/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//cctheIXO.s:228    .text.goertzel:00000000000001b8 $d
-/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//cctheIXO.s:235    .rodata:0000000000000000 $d
-/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//cctheIXO.s:242    .text.circular_goertzel_stream:0000000000000000 $t
-/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//cctheIXO.s:247    .text.circular_goertzel_stream:0000000000000000 circular_goertzel_stream
-/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//cctheIXO.s:486    .text.circular_goertzel_stream:0000000000000220 $d
-/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//cctheIXO.s:842    .bss.initialized.6053:0000000000000000 initialized.6053
-/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//cctheIXO.s:848    .bss.cbuf.6054:0000000000000000 cbuf.6054
-/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//cctheIXO.s:854    .bss.d1.6060:0000000000000000 d1.6060
-/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//cctheIXO.s:860    .bss.d2.6061:0000000000000000 d2.6061
-/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//cctheIXO.s:866    .bss.y.6062:0000000000000000 y.6062
-/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//cctheIXO.s:872    .bss.total_power.6063:0000000000000000 total_power.6063
-/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//cctheIXO.s:501    .text.tandem_goertzel_stream:0000000000000000 $t
-/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//cctheIXO.s:506    .text.tandem_goertzel_stream:0000000000000000 tandem_goertzel_stream
-/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//cctheIXO.s:826    .text.tandem_goertzel_stream:00000000000002e0 $d
-/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//cctheIXO.s:878    .bss.s_prev.6071:0000000000000000 s_prev.6071
-/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//cctheIXO.s:884    .bss.s_prev2.6072:0000000000000000 s_prev2.6072
-/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//cctheIXO.s:890    .bss.n.6080:0000000000000000 n.6080
-/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//cctheIXO.s:896    .bss.N.6074:0000000000000000 N.6074
-/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//cctheIXO.s:902    .bss.total_power.6073:0000000000000000 total_power.6073
-/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//cctheIXO.s:839    .bss.initialized.6053:0000000000000000 $d
-/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//cctheIXO.s:845    .bss.cbuf.6054:0000000000000000 $d
-/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//cctheIXO.s:851    .bss.d1.6060:0000000000000000 $d
-/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//cctheIXO.s:857    .bss.d2.6061:0000000000000000 $d
-/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//cctheIXO.s:863    .bss.y.6062:0000000000000000 $d
-/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//cctheIXO.s:869    .bss.total_power.6063:0000000000000000 $d
-/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//cctheIXO.s:875    .bss.s_prev.6071:0000000000000000 $d
-/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//cctheIXO.s:881    .bss.s_prev2.6072:0000000000000000 $d
-/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//cctheIXO.s:887    .bss.n.6080:0000000000000000 $d
-/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//cctheIXO.s:893    .bss.N.6074:0000000000000000 $d
-/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//cctheIXO.s:899    .bss.total_power.6073:0000000000000000 $d
+/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccUrIvW1.s:26     .text.goertzel:0000000000000000 $t
+/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccUrIvW1.s:31     .text.goertzel:0000000000000000 goertzel
+/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccUrIvW1.s:218    .text.goertzel:0000000000000128 $d
+/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccUrIvW1.s:225    .text.circular_goertzel_stream:0000000000000000 $t
+/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccUrIvW1.s:230    .text.circular_goertzel_stream:0000000000000000 circular_goertzel_stream
+/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccUrIvW1.s:456    .text.circular_goertzel_stream:0000000000000180 $d
+/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccUrIvW1.s:471    .text.tandem_goertzel_stream:0000000000000000 $t
+/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccUrIvW1.s:476    .text.tandem_goertzel_stream:0000000000000000 tandem_goertzel_stream
+/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccUrIvW1.s:714    .text.tandem_goertzel_stream:00000000000001b8 $d
+/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccUrIvW1.s:727    .bss.y.6062:0000000000000000 $d
+/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccUrIvW1.s:731    .bss.y.6062:0000000000000000 y.6062
+/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccUrIvW1.s:734    .bss.d1.6060:0000000000000000 $d
+/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccUrIvW1.s:738    .bss.d1.6060:0000000000000000 d1.6060
+/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccUrIvW1.s:741    .bss.N.6074:0000000000000000 $d
+/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccUrIvW1.s:745    .bss.N.6074:0000000000000000 N.6074
+/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccUrIvW1.s:748    .bss.s_prev.6071:0000000000000000 $d
+/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccUrIvW1.s:752    .bss.s_prev.6071:0000000000000000 s_prev.6071
+/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccUrIvW1.s:755    .bss.cbuf.6054:0000000000000000 $d
+/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccUrIvW1.s:759    .bss.cbuf.6054:0000000000000000 cbuf.6054
+/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccUrIvW1.s:762    .bss.initialized.6053:0000000000000000 $d
+/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccUrIvW1.s:766    .bss.initialized.6053:0000000000000000 initialized.6053
+/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccUrIvW1.s:769    .bss.n.6080:0000000000000000 $d
+/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccUrIvW1.s:773    .bss.n.6080:0000000000000000 n.6080
+/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccUrIvW1.s:776    .rodata.str1.4:0000000000000000 $d
+/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccUrIvW1.s:783    .bss.total_power.6063:0000000000000000 $d
+/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccUrIvW1.s:787    .bss.total_power.6063:0000000000000000 total_power.6063
+/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccUrIvW1.s:790    .bss.s_prev2.6072:0000000000000000 $d
+/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccUrIvW1.s:794    .bss.s_prev2.6072:0000000000000000 s_prev2.6072
+/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccUrIvW1.s:797    .bss.d2.6061:0000000000000000 $d
+/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccUrIvW1.s:801    .bss.d2.6061:0000000000000000 d2.6061
+/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccUrIvW1.s:804    .bss.total_power.6073:0000000000000000 $d
+/var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccUrIvW1.s:808    .bss.total_power.6073:0000000000000000 total_power.6073
                      .debug_frame:0000000000000010 $d
 
 UNDEFINED SYMBOLS
