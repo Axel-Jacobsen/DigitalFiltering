@@ -11,7 +11,7 @@ int main(void)
     double var1;
     int WINDOW_SIZE = 1024;
 
-    FILE *f1 = fopen("variable_output.txt", "r");
+    FILE *f1 = fopen("output_1kHz.txt", "r");
     int n = 0;
     double x1[10 * WINDOW_SIZE];
     while (fscanf(f1, "%lf", &var1) > 0)

@@ -9,7 +9,7 @@ xs  = []
 ts1 = []
 d   = []
 
-with open("variable_output.txt", "r") as fx:
+with open("output_1kHz.txt", "r") as fx:
     for line in fx:
         xs.append(float(line.strip()))
 
