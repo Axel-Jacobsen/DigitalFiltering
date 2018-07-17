@@ -40,10 +40,7 @@
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
-<<<<<<< HEAD
 extern DMA_HandleTypeDef hdma_adc1;
-=======
->>>>>>> 8014290a4e73a4bcc694909df24c79fa8737d68c
 
 /******************************************************************************/
 /*            Cortex-M4 Processor Interruption and Exception Handlers         */ 
@@ -195,7 +192,6 @@ void SysTick_Handler(void)
 /* please refer to the startup file (startup_stm32f4xx.s).                    */
 /******************************************************************************/
 
-<<<<<<< HEAD
 /**
 * @brief This function handles DMA2 stream0 global interrupt.
 */
@@ -210,8 +206,6 @@ void DMA2_Stream0_IRQHandler(void)
   /* USER CODE END DMA2_Stream0_IRQn 1 */
 }
 
-=======
->>>>>>> 8014290a4e73a4bcc694909df24c79fa8737d68c
 /* USER CODE BEGIN 1 */
 
 /* USER CODE END 1 */

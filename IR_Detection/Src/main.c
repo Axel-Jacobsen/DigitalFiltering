@@ -79,7 +79,7 @@ static void MX_TIM2_Init(void);
 
 /* USER CODE BEGIN 0 */
 volatile uint8_t dealt_with = 0;
-uint32_t value_adc[1] = {0};
+int value_adc[1024] = {0};
 
 // char *adc = (char *)malloc(13 * sizeof(char));
 int calc = 0;
@@ -132,7 +132,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
   ssd1306_Init();
   HAL_TIM_Base_Start_IT(&htim2);
-  HAL_ADC_Start_DMA(&hadc1, value_adc, 1);
+  HAL_ADC_Start_DMA(&hadc1, value_adc, 1024);
 
   ssd1306_Fill(Black);
   ssd1306_SetCursor(0, 0);
@@ -151,9 +151,9 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    // value = goertzel(value_adc, SAMPLING_RATE, 1000, WINDOW_SIZE);
-    if (1)
+    if (calc)
     {
+      value = goertzel(value_adc, SAMPLING_RATE, 1000, WINDOW_SIZE);
       char *adc = (char *)malloc(13 * sizeof(char));
       ssd1306_Fill(Black);
       ssd1306_SetCursor(0, 0);
@@ -373,19 +373,19 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
 {
-  ++n;
-  // value = circular_goertzel_stream((double)value_adc[0] - 2048, 1000, SAMPLING_RATE, WINDOW_SIZE);
-  total_power += ((double)value_adc[0] - 2048) * ((double)value_adc[0] - 2048);
-  y = ((double)value_adc[0] - 2048) + w_real * d1 - d2 - 100;
-  d2 = d1;
-  d1 = y;
-  value = (d2 * d2 + d1 * d1 - w_real * d1 * d2) / total_power;
+//   ++n;
+//   // value = circular_goertzel_stream((double)value_adc[0] - 2048, 1000, SAMPLING_RATE, WINDOW_SIZE);
+//   total_power += ((double)value_adc[0] - 2048) * ((double)value_adc[0] - 2048);
+//   y = ((double)value_adc[0] - 2048) + w_real * d1 - d2 - 100;
+//   d2 = d1;
+//   d1 = y;
+//   value = (d2 * d2 + d1 * d1 - w_real * d1 * d2) / total_power;
 
-  if (n % HIST_LENGTH == 0)
-  {
-    yes_no = (value - prev_val) > 0 ? 1 : 0;
-    prev_val = value;
-  }
+//   if (n % HIST_LENGTH == 0)
+//   {
+//     yes_no = (value - prev_val) > 0 ? 1 : 0;
+//     prev_val = value;
+//   }
   calc = 1;
 }
 /* USER CODE END 4 */
