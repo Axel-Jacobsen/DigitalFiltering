@@ -1,0 +1,53 @@
+Configuration	IR_Detection
+STM32CubeMX 	4.26.0
+Date	07/13/2018
+MCU	STM32F401RETx
+
+
+
+PERIPHERALS	MODES	FUNCTIONS	PINS
+ADC1	IN0	ADC1_IN0	PA0-WKUP
+ADC1	IN1	ADC1_IN1	PA1
+ADC1	IN2	ADC1_IN2	PA2
+I2C1	I2C	I2C1_SCL	PB6
+I2C1	I2C	I2C1_SDA	PB7
+SYS	SysTick	SYS_VS_Systick	VP_SYS_VS_Systick
+TIM2	Internal Clock	TIM2_VS_ClockSourceINT	VP_TIM2_VS_ClockSourceINT
+TIM2	PWM Generation No Output	TIM2_VS_no_output1	VP_TIM2_VS_no_output1
+
+
+
+Pin Nb	PINs	FUNCTIONs	LABELs
+14	PA0-WKUP	ADC1_IN0	
+15	PA1	ADC1_IN1	
+16	PA2	ADC1_IN2	
+58	PB6	I2C1_SCL	
+59	PB7	I2C1_SDA	
+
+
+
+SOFTWARE PROJECT
+
+Project Settings : 
+Project Name : IR_Detection
+Project Folder : /Users/axeljacobsen/Documents/Programs/DigitalFiltering/IR_Detection
+Toolchain / IDE : Makefile
+Firmware Package Name and Version : STM32Cube FW_F4 V1.21.0
+
+
+Code Generation Settings : 
+STM32Cube Firmware Library Package : Copy all used libraries into the project folder
+Generate peripheral initialization as a pair of '.c/.h' files per peripheral : No
+Backup previously generated files when re-generating : No
+Delete previously generated files when not re-generated : Yes
+Set all free pins as analog (to optimize the power consumption) : No
+
+
+Toolchains Settings : 
+Compiler Optimizations : Balanced Size/Speed
+
+
+
+
+
+
