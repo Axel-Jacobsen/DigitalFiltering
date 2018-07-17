@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 ARM GAS  /var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccnZQEAx.s 			page 1
+=======
+ARM GAS  /var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//cclNCLV5.s 			page 1
+>>>>>>> 8014290a4e73a4bcc694909df24c79fa8737d68c
 
 
    1              		.syntax unified
@@ -24,7 +28,11 @@ ARM GAS  /var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccnZQEAx.s 			page 1
   21              		.file 1 "/usr/local/Cellar/arm-none-eabi-gcc/20150921/arm-none-eabi/include/machine/_default_types
   22              		.file 2 "/usr/local/Cellar/arm-none-eabi-gcc/20150921/arm-none-eabi/include/sys/_stdint.h"
   23              		.file 3 "Drivers/CMSIS/Include/core_cm4.h"
+<<<<<<< HEAD
 ARM GAS  /var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccnZQEAx.s 			page 2
+=======
+ARM GAS  /var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//cclNCLV5.s 			page 2
+>>>>>>> 8014290a4e73a4bcc694909df24c79fa8737d68c
 
 
 DEFINED SYMBOLS

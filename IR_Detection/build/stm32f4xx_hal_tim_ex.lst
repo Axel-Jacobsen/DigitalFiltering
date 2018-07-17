@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 ARM GAS  /var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccSwk5wb.s 			page 1
+=======
+ARM GAS  /var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccPm7xhH.s 			page 1
+>>>>>>> 8014290a4e73a4bcc694909df24c79fa8737d68c
 
 
    1              		.syntax unified
@@ -20,6 +24,7 @@ ARM GAS  /var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccSwk5wb.s 			page 1
   17              		.text
   18              	.Ltext0:
   19              		.cfi_sections	.debug_frame
+<<<<<<< HEAD
   20              		.section	.text.TIM_CCxNChannelCmd,"ax",%progbits
   21              		.align	2
   22              		.thumb
@@ -5236,10 +5241,18 @@ ARM GAS  /var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccSwk5wb.s 			page 1
  2764              		.file 9 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h"
  2765              		.file 10 "Drivers/CMSIS/Include/core_cm4.h"
 ARM GAS  /var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccSwk5wb.s 			page 89
+=======
+  20              	.Letext0:
+  21              		.file 1 "/usr/local/Cellar/arm-none-eabi-gcc/20150921/arm-none-eabi/include/machine/_default_types
+  22              		.file 2 "/usr/local/Cellar/arm-none-eabi-gcc/20150921/arm-none-eabi/include/sys/_stdint.h"
+  23              		.file 3 "Drivers/CMSIS/Include/core_cm4.h"
+ARM GAS  /var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccPm7xhH.s 			page 2
+>>>>>>> 8014290a4e73a4bcc694909df24c79fa8737d68c
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 stm32f4xx_hal_tim_ex.c
+<<<<<<< HEAD
 /var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccSwk5wb.s:21     .text.TIM_CCxNChannelCmd:0000000000000000 $t
 /var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccSwk5wb.s:25     .text.TIM_CCxNChannelCmd:0000000000000000 TIM_CCxNChannelCmd
 /var/folders/ck/4xtm3skj1ssb0w4rn7_4q_gw0000gn/T//ccSwk5wb.s:64     .text.HAL_TIMEx_HallSensor_MspInit:0000000000000000 $t
@@ -5359,3 +5372,7 @@ TIM_DMAError
 
 
 TIM_DMADelayPulseCplt
+=======
+
+NO UNDEFINED SYMBOLS
+>>>>>>> 8014290a4e73a4bcc694909df24c79fa8737d68c

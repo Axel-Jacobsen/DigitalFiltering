@@ -39,8 +39,11 @@
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx_hal.h"
 
+<<<<<<< HEAD
 extern DMA_HandleTypeDef hdma_adc1;
 
+=======
+>>>>>>> 8014290a4e73a4bcc694909df24c79fa8737d68c
 extern void _Error_Handler(char *, int);
 /* USER CODE BEGIN 0 */
 
@@ -100,6 +103,7 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef* hadc)
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
+<<<<<<< HEAD
     /* ADC1 DMA Init */
     /* ADC1 Init */
     hdma_adc1.Instance = DMA2_Stream0;
@@ -119,6 +123,8 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef* hadc)
 
     __HAL_LINKDMA(hadc,DMA_Handle,hdma_adc1);
 
+=======
+>>>>>>> 8014290a4e73a4bcc694909df24c79fa8737d68c
   /* USER CODE BEGIN ADC1_MspInit 1 */
 
   /* USER CODE END ADC1_MspInit 1 */
@@ -142,8 +148,11 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* hadc)
     */
     HAL_GPIO_DeInit(GPIOA, GPIO_PIN_0);
 
+<<<<<<< HEAD
     /* ADC1 DMA DeInit */
     HAL_DMA_DeInit(hadc->DMA_Handle);
+=======
+>>>>>>> 8014290a4e73a4bcc694909df24c79fa8737d68c
   /* USER CODE BEGIN ADC1_MspDeInit 1 */
 
   /* USER CODE END ADC1_MspDeInit 1 */
@@ -205,6 +214,7 @@ void HAL_I2C_MspDeInit(I2C_HandleTypeDef* hi2c)
 
 }
 
+<<<<<<< HEAD
 void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base)
 {
 
@@ -239,6 +249,8 @@ void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* htim_base)
 
 }
 
+=======
+>>>>>>> 8014290a4e73a4bcc694909df24c79fa8737d68c
 /* USER CODE BEGIN 1 */
 
 /* USER CODE END 1 */
