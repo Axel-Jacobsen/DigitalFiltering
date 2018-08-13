@@ -71,7 +71,6 @@ int circ_bufsum_put(circ_bufsum_t * cbuf, double data)
     }
     printf("cbuf.head = %lu, cbuf.tail = %lu\n", cbuf->head, cbuf->tail);
 
-
     return r;
 }
 
@@ -119,3 +118,4 @@ int inline circ_bufsum_read_tail(circ_bufsum_t *cbuf)
     }
     return -1;
 }
+

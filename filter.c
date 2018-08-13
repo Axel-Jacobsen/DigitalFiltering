@@ -8,53 +8,7 @@
 
 #define PI 3.141592653589793
 
-#define BANDWITH 200
-#define NUM_FREQS 2
-
-/*
-return the goertzel algorithm evaluation for the given inputs
-- x is an array of samples
-- sample_rate is the sample rate at which x was taken
-- freqs is an array of pairs of lower and upper bounds for frequencies
-    - example: freqs = [400, 500, 1000, 1100] would mean that we are looking at 2 bands of frequencies: 400 to 500, and 1000 to 1100
-    - by it's nature, freqs must have an even number of inputs
-    - BANDWITHS MUST BE THE SAME FOR EACH FREQ PAIR
-        - TODO: Generalize for variable bandwiths
-- results must be 'results[num_freqs / 2][size_of_bin]'
-
-TODO:
-    - optimize w/ pointers
-    - optimize for use in other files
-*/
 double goertzel(double *x, int sample_rate, int freq, int window_size)
-{
-    // Set up initial parameters
-    double f_step = sample_rate / (double)window_size;
-    double f_step_normalized = 1.0 / window_size;
-
-    double k = freq / f_step;
-
-    // number of frequencies is the same size as the number of
-    // upper and lower bin limits; loop through bin limits (i.e.
-    // k_start and k_end pairs, and evaluate goertzel from there)
-    double normalizedfreq, w_real, w_imag;
-
-    normalizedfreq = k * f_step_normalized;
-    w_real = 2.0 * cos(2.0 * PI * normalizedfreq);
-
-    double d1 = 0, d2 = 0, y = 0;
-    for (int n = 0; n < window_size; n++)
-    {
-        y = x[n] + w_real * d1 - d2;
-        d2 = d1;
-        d1 = y;
-    }
-
-    // Calculate power, and put it in its results spot
-    return d2 * d2 + d1 * d1 - w_real * d1 * d2;
-}
-
-double goertzel(int *x, int sample_rate, int freq, int window_size)
 {
     // Set up initial parameters
     double f_step = sample_rate / (double)window_size;
@@ -102,8 +56,6 @@ double circular_goertzel_stream(double x, int freq, int sample_rate, int window_
 
     // Get rid of for loop of num_freqs,etc
     // Bin frequency and coefficients for computation
-    // TODO: MAKE STATIC? i.e. w_real is constant across t
-    //       for one frequency!
     double normalizedfreq, w_real;
     normalizedfreq = k * f_step_normalized;
     w_real = 2.0 * cos(2.0 * PI * normalizedfreq);
@@ -113,8 +65,6 @@ double circular_goertzel_stream(double x, int freq, int sample_rate, int window_
         while cbuf->size < WINDOW_SIZE
             perform this loop (put new values of y into cbuf)
         put new values into cbuf, subtract old y from d1 values
-
-    TODO: Optimize circ_bufsum_add_sample to be able to be used when queue is not empty
     */
     static double d1 = 0;
     static double d2 = 0; 
@@ -126,10 +76,14 @@ double circular_goertzel_stream(double x, int freq, int sample_rate, int window_
     d2 = d1;
     d1 = y;
 
-    // printf("FRQ: %.9f", normalizedfreq * sample_rate);
-    // printf(" VAL: %.9f\n", d2 * d2 + d1 * d1 - w_real * d1 * d2);
-    // // Calculate power, and put it in its results spot
-    // MAY NEED TO NORMAILZE POWER
+    // The issue here is trying to figure out how to subtract previous 
+    // values from the current output y to maintain a plateau when 
+    // measuring the desired frequency consistently. This can be done when 
+    // the inputs x follow a specific function, but not when they are real samples 
+    // (as far as I understand). If anyone knows better, let me know! For now, 
+    // nothing happens.
+
+    // Calculate power, and put it in its results spot
     total_power += x*x;
     return ((d2 * d2 + d1 * d1 - w_real * d1 * d2) / total_power / cbuf.num_els);
 }
@@ -168,7 +122,7 @@ double tandem_goertzel_stream(double x, int freq, int sample_rate, int resetsamp
 
     N++;
 
-    // reset inactive
+    // Reset inactive
     active = (N / resetsample) & 0x01;
     if (n[1 - active] >= resetsample)
     {
@@ -181,6 +135,5 @@ double tandem_goertzel_stream(double x, int freq, int sample_rate, int resetsamp
     total_power[1] += x * x;
     power = s_prev2[active] * s_prev2[active] + s_prev[active] * s_prev[active] - w_real * s_prev[active] * s_prev2[active];
 
-    // printf("\n\npoooower %f\n", power);
     return power / (total_power[active] + 1e-7) / n[active];
 }
