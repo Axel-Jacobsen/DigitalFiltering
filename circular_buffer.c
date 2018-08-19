@@ -38,9 +38,6 @@ int circ_bufsum_reset(circ_bufsum_t *cbuf)
     return r;
 }
 
-/*
-Returns emptyness of cbuf - 1 for empty 
-*/
 int circ_bufsum_empty(circ_bufsum_t *cbuf)
 {
     return (cbuf->tail +1) == cbuf->head;
@@ -69,14 +66,10 @@ int circ_bufsum_put(circ_bufsum_t * cbuf, double data)
             cbuf->num_els++;
         }
     }
-    printf("cbuf.head = %lu, cbuf.tail = %lu\n", cbuf->head, cbuf->tail);
 
     return r;
 }
 
-/*
-Add a new sample to the buffer - add it to the sum of the buffer, and remove the value that is overwritten 
-*/
 double circ_bufsum_add_sample(circ_bufsum_t * cbuf, double data)
 {
     double r = -1.0;
